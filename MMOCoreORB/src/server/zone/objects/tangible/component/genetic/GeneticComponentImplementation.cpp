@@ -3,9 +3,7 @@
 		See file COPYING for copying conditions.*/
 
 #include "server/zone/objects/tangible/component/genetic/GeneticComponent.h"
-#include "server/zone/objects/tangible/weapon/WeaponObject.h"
-#include "server/zone/objects/creature/ai/CreatureTemplate.h"
-#include "server/zone/managers/crafting/labratories/Genetics.h"
+#include "templates/tangible/SharedWeaponObjectTemplate.h"
 
 void GeneticComponentImplementation::initializeTransientMembers() {
 	ComponentImplementation::initializeTransientMembers();
@@ -140,8 +138,8 @@ void GeneticComponentImplementation::updateCraftingValues(CraftingValues* values
 	if (dexterity < 0)
 		dexterity = 1;
 
-	if (fierceness > 1250){
-		fierceness = 1250;
+	if (fierceness > 1000){
+		fierceness = 1000;
 	}
 	if (fierceness < 0)
 		fierceness = 1;
@@ -192,25 +190,26 @@ void GeneticComponentImplementation::updateCraftingValues(CraftingValues* values
 	// Strength: har,dep
 	// Quickness: dex,dep
 
-	health = (hardiness * 275)    + (dexterity * 75);
-	action = (dexterity * 275)    + (intelligence * 75);
-	mind   = (intelligence * 275) + (hardiness * 75);
-	stamina = (dexterity * 20)     + (endurance * 15);
-	willPower = (intelligence * 20) + (cleverness * 15);
-	constitution = (hardiness * 20)    + (fortitude * 15);
-	focus = (intelligence * 20) + (dependency * 15);
-	strength = (hardiness * 20)    + (dependency * 15);
-	quickness = (dexterity * 20)    + (dependency * 15);
-	hit = 15.00 + (10.00 * ((float)cleverness/300.0));
+	health = (hardiness * 85)    + (dexterity * 15);
+	action = (dexterity * 85)    + (intelligence * 15);
+	mind   = (intelligence * 85) + (hardiness * 15);
+	stamina = (dexterity * 10)     + (endurance * 5);
+	willPower = (intelligence * 10) + (cleverness * 5);
+	constitution = (hardiness * 10)    + (fortitude * 5);
+	focus = (intelligence * 10) + (dependency * 5);
+	strength = (hardiness * 10)    + (dependency * 5);
+	quickness = (dexterity * 10)    + (dependency * 5);
+	hit = 3.0 + (3.00 * ((float)cleverness/500.0));
 	// dps of pet use to determien min and max value.
-	int dps = ceil((ceil(15.0 + (1425.0 * ( ((float)power)/675.0))))/2.5);
+	int dps = ceil(1.0 * (float)power);
 	speed = 2.5-((ceil(((float)courage)/10)*10)/1000);
-	maxDam = round(((float)dps * speed) * 3.5);
-	//minDam = round(((float)dps * speed) * 0.5);
+	maxDam = round(((float)dps * speed) * 0.65);
   	// round maxDam down to the closest multiple of 5
 	maxDam = maxDam - (maxDam % 5);
-  	// subtract either 5 or 10 from maxDam to get the minDam
-	minDam = maxDam - ((System::random(1) + 1) * 5);
+	if (maxDam <51)
+		maxDam = 51;
+  	// subtract either 25 or 50 from maxDam to get the minDam
+	minDam = maxDam - ((System::random(1) + 1) * 25);
 }
 String GeneticComponentImplementation::convertSpecialAttack(String &attackName) {
 	if (attackName == "defaultattack" || attackName == "")
@@ -297,11 +296,6 @@ void GeneticComponentImplementation::setSpecialResist(int type) {
 	specialResists |= type;
 }
 int GeneticComponentImplementation::getEffectiveArmor() {
-	if (fortitude < 500)
-		return fortitude/50;
-	if (fortitude > 500)
-		return (fortitude-500)/50;
-	if (fortitude == 500)
-		return 0;
-	return fortitude/50;
+
+	return 0;
 }

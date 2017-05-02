@@ -1,6 +1,7 @@
 elder_ancient_bull_rancor = Creature:new {
-   objectName = "@mob/creature_names:",
+   -- objectName = "@mob/creature_names:",
    customName = "elder ancient bull rancor",
+   	socialGroup = "rancor",
 	faction = "",
 	level = 98,
 	chanceHit = 0.95,
@@ -9,7 +10,7 @@ elder_ancient_bull_rancor = Creature:new {
 	baseXp = 9336,
 	baseHAM = 20000,
 	baseHAMmax = 25000,
-	armor = 2,
+	armor = 0,
 	resists = {150,165,0,200,200,200,0,0,-1},
 	meatType = "meat_carnivore",
 	meatAmount = 1000,

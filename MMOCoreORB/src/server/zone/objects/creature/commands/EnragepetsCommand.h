@@ -5,7 +5,6 @@
 #ifndef ENRAGEPETSCOMMAND_H_
 #define ENRAGEPETSCOMMAND_H_
 
-#include "server/zone/objects/scene/SceneObject.h"
 #include "server/zone/objects/intangible/PetControlDevice.h"
 #include "server/zone/managers/creature/PetManager.h"
 #include "server/zone/objects/creature/ai/AiAgent.h"
@@ -22,7 +21,7 @@ public:
 	int doQueueCommand(CreatureObject* player, const uint64& target, const UnicodeString& arguments) const {
 
 		int cooldownMilli = 240000; // 4 min
-		int durationSec =  230; // 3.5 min
+		int durationSec =  210; // 3.5 min
 		int mindCost = player->calculateCostAdjustment(CreatureAttribute::FOCUS, 100 );
 		unsigned int buffCRC = STRING_HASHCODE("enragePet");
 
@@ -66,8 +65,8 @@ public:
 				if( pet->isIncapacitated() || pet->isDead() )
 					continue;
 
-				// Check range
-				if( !player->isInRange( pet, 75.0 ) )
+				// Check range, make sure CH is fairly upclose and personal
+				if( !player->isInRange( pet, 50.0 ) )
 					continue;
 
 				// Check if pet already has buff
@@ -78,10 +77,10 @@ public:
 				if( pet->getCooldownTimerMap() == NULL || !pet->getCooldownTimerMap()->isPast("enragePetsCooldown") )
 					continue;
 
-				// Determine damage bonus (50% of average damage)
-				int damageBonus = (int) ((((float)pet->getDamageMin() + (float)pet->getDamageMax())/2) * .50);
+				// Determine damage bonus (25% of average damage)
+				int damageBonus = (int) ((((float)pet->getDamageMin() + (float)pet->getDamageMax())/2) * 0.25);
 
-				// Determine damage susceptibility (one quarter of damage bonus)
+				// Determine damage susceptibility (1/4 of damage bonus)
 				int damageSusceptibility = damageBonus / 4;
 
 				// Build buff

@@ -44,7 +44,6 @@
 #include "templates/params/creature/CreatureState.h"
 #include "templates/params/creature/CreaturePosture.h"
 #include "server/zone/objects/creature/ai/LuaAiAgent.h"
-#include "server/zone/objects/creature/ai/bt/Behavior.h"
 #include "server/zone/objects/area/LuaActiveArea.h"
 #include "server/zone/objects/creature/conversation/ConversationScreen.h"
 #include "server/zone/objects/creature/conversation/ConversationTemplate.h"
@@ -52,7 +51,6 @@
 #include "server/zone/objects/creature/conversation/LuaConversationTemplate.h"
 #include "server/zone/objects/player/sessions/LuaConversationSession.h"
 #include "server/zone/objects/tangible/terminal/startinglocation/StartingLocationTerminal.h"
-#include "server/zone/objects/area/SpawnArea.h"
 #include "server/zone/objects/group/GroupObject.h"
 #include "server/zone/managers/sui/LuaSuiManager.h"
 #include "server/zone/objects/player/sui/LuaSuiBox.h"
@@ -67,7 +65,6 @@
 #include "server/zone/managers/creature/AiMap.h"
 #include "server/chat/LuaStringIdChatParameter.h"
 #include "server/zone/objects/tangible/ticket/TicketObject.h"
-#include "server/db/ServerDatabase.h"
 #include "server/zone/objects/player/sui/SuiWindowType.h"
 #include "server/zone/packets/scene/PlayClientEffectLocMessage.h"
 #include "server/zone/managers/player/BadgeList.h"
@@ -82,7 +79,6 @@
 #include "server/zone/objects/resource/ResourceSpawn.h"
 #include "server/zone/objects/tangible/component/Component.h"
 #include "server/zone/objects/pathfinding/NavMeshRegion.h"
-#include "server/zone/managers/collision/NavMeshManager.h"
 #include "server/zone/objects/player/sui/listbox/LuaSuiListBox.h"
 #include "server/zone/objects/tangible/component/lightsaber/LightsaberCrystalComponent.h"
 
@@ -352,6 +348,7 @@ void DirectorManager::initializeLuaEngine(Lua* luaEngine) {
 	lua_register(luaEngine->getLuaState(), "getQuestVectorMap", getQuestVectorMap);
 	lua_register(luaEngine->getLuaState(), "createQuestVectorMap", createQuestVectorMap);
 	lua_register(luaEngine->getLuaState(), "removeQuestVectorMap", removeQuestVectorMap);
+	lua_register(luaEngine->getLuaState(), "adminPlaceStructure", adminPlaceStructure);
 	lua_register(luaEngine->getLuaState(), "creatureTemplateExists", creatureTemplateExists);
 
 	//Navigation Mesh Management
@@ -412,6 +409,7 @@ void DirectorManager::initializeLuaEngine(Lua* luaEngine) {
 	luaEngine->setGlobalInt("PARENTCHANGED", ObserverEventType::PARENTCHANGED);
 	luaEngine->setGlobalInt("LOGGEDIN", ObserverEventType::LOGGEDIN);
 	luaEngine->setGlobalInt("LOGGEDOUT", ObserverEventType::LOGGEDOUT);
+	luaEngine->setGlobalInt("ZONESWITCHED", ObserverEventType::ZONESWITCHED);
 
 	luaEngine->setGlobalInt("UPRIGHT", CreaturePosture::UPRIGHT);
 	luaEngine->setGlobalInt("PRONE", CreaturePosture::PRONE);
@@ -3280,4 +3278,36 @@ int DirectorManager::creatureTemplateExists(lua_State* L) {
 	lua_pushboolean(L, result);
 
 	return 1;
+}
+
+int DirectorManager::adminPlaceStructure(lua_State* L) {
+	Reference<CreatureObject*> creature = (CreatureObject*)lua_touserdata(L, -2);
+	String templateString = lua_tostring(L, -1);
+
+	ManagedReference<Zone*> zone = creature->getZone();
+
+	if (zone == NULL)
+		return 0;
+
+	if (creature->getParent() != NULL) {
+			DirectorManager::instance()->error("adminPlaceStructure - You were not outside.");
+			return 0;
+	}
+
+	int angle = creature->getDirectionAngle();
+
+	if (templateString.contains("housing_tatt_style02_med") || templateString.contains("player/city/cloning") || templateString.contains("player/city/hospital"))
+		angle -= 90; // Correct unusual default POB rotation
+
+	if (templateString.contains("guild_theater"))
+		angle -= 180; // Correct unusual default POB rotation
+
+	float x = creature->getPositionX();
+	float y = creature->getPositionY();
+	int persistenceLevel = 1;
+
+	// Create Structure
+	StructureObject* structureObject = StructureManager::instance()->placeStructure(creature, templateString, x, y, angle, persistenceLevel);
+
+	return 0;
 }

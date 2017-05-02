@@ -1,5 +1,5 @@
 enraged_dune_kimogila_ancient = Creature:new {
-	objectName = "@mob/creature_names:",
+	-- objectName = "@mob/creature_names:",
 	customName = "enraged dune kimogila ancient",
 	socialGroup = "kimogila",
 	faction = "",
@@ -10,7 +10,7 @@ enraged_dune_kimogila_ancient = Creature:new {
 	baseXp = 14030,
 	baseHAM = 62000,
 	baseHAMmax = 75000,
-	armor = 2,
+	armor = 0,
 	resists = {180,190,180,200,180,180,200,180,-1},
 	meatType = "meat_carnivore",
 	meatAmount = 1000,

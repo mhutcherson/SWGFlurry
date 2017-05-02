@@ -11,7 +11,7 @@ death_watch_black_sun_assassin = Creature:new {
 	baseXp = 10081,
 	baseHAM = 40000,
 	baseHAMmax = 40000,
-	armor = 2,
+	armor = 0,
 	resists = {55,55,70,45,75,80,55,45,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -32,11 +32,7 @@ death_watch_black_sun_assassin = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "death_watch_bunker_commoners", chance = 6000000},
-				{group = "rifles", chance = 1000000},
-				{group = "pistols", chance = 1000000},
-				{group = "clothing_attachments", chance = 1000000},
-				{group = "armor_attachments", chance = 1000000}
+				{group = "death_watch_bunker_commoners", chance = 10000000},
 			},
 			lootChance = 10000000
 		}

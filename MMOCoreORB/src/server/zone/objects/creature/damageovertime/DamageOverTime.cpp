@@ -8,9 +8,7 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/creature/commands/effect/CommandEffect.h"
 #include "DamageOverTime.h"
-#include "server/zone/Zone.h"
 #include "server/zone/ZoneServer.h"
-#include "server/zone/packets/object/CombatSpam.h"
 
 DamageOverTime::DamageOverTime() {
 	setAttackerID(0);
@@ -157,7 +155,6 @@ uint32 DamageOverTime::initDot(CreatureObject* victim, CreatureObject* attacker)
 		break;
 	case CommandEffect::FORCECHOKE:
 		nextTick.addMiliTime(6000);
-		strength = (float)(strength * 0.01f) + (strength * (System::random(100) * 0.01f));
 		victim->showFlyText("combat_effects", "choke", 0xFF, 0, 0);
 
 		break;

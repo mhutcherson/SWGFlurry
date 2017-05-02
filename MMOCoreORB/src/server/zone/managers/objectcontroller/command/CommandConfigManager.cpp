@@ -38,7 +38,6 @@
 #include "server/zone/objects/creature/commands/pet/PetGetPatrolPointCommand.h"
 
 #include "templates/params/creature/CreatureState.h"
-#include "templates/params/creature/CreaturePosture.h"
 #include "templates/params/creature/CreatureLocomotion.h"
 #include "templates/datatables/DataTableIff.h"
 #include "templates/datatables/DataTableRow.h"
@@ -483,7 +482,6 @@ void CommandConfigManager::registerGlobals() {
 	setGlobalInt("BLAST_DAMAGE", SharedWeaponObjectTemplate::BLAST);
 	setGlobalInt("STUN_DAMAGE", SharedWeaponObjectTemplate::STUN);
 	setGlobalInt("LIGHTSABER_DAMAGE", SharedWeaponObjectTemplate::LIGHTSABER);
-	setGlobalInt("FORCEPOWER_DAMAGE", SharedWeaponObjectTemplate::FORCEPOWER);
 	setGlobalInt("HEAT_DAMAGE", SharedWeaponObjectTemplate::HEAT);
 	setGlobalInt("COLD_DAMAGE", SharedWeaponObjectTemplate::COLD);
 	setGlobalInt("ACID_DAMAGE", SharedWeaponObjectTemplate::ACID);
@@ -966,6 +964,7 @@ void CommandConfigManager::registerCommands() {
 	commandFactory.registerCommand<ForceArmor1Command>(String("forceArmor1").toLowerCase());
 	commandFactory.registerCommand<ForceArmor2Command>(String("forceArmor2").toLowerCase());
 	commandFactory.registerCommand<ForceChokeCommand>(String("forceChoke").toLowerCase());
+	commandFactory.registerCommand<ForceChokeCommand>(String("forceChoke_npc").toLowerCase());
 	commandFactory.registerCommand<ForceCommandCommand>(String("forceCommand").toLowerCase());
 	commandFactory.registerCommand<ForceCureDiseaseCommand>(String("forceCureDisease").toLowerCase());
 	commandFactory.registerCommand<ForceCurePoisonCommand>(String("forceCurePoison").toLowerCase());
@@ -977,9 +976,13 @@ void CommandConfigManager::registerCommands() {
 	commandFactory.registerCommand<ForceKnockdown2Command>(String("forceKnockdown2").toLowerCase());
 	commandFactory.registerCommand<ForceKnockdown3Command>(String("forceKnockdown3").toLowerCase());
 	commandFactory.registerCommand<ForceLightningCone1Command>(String("forceLightningCone1").toLowerCase());
+	commandFactory.registerCommand<ForceLightningCone1Command>(String("forceLightningCone1_npc").toLowerCase());
 	commandFactory.registerCommand<ForceLightningCone2Command>(String("forceLightningCone2").toLowerCase());
+	commandFactory.registerCommand<ForceLightningCone2Command>(String("forceLightningCone2_npc").toLowerCase());
 	commandFactory.registerCommand<ForceLightningSingle1Command>(String("forceLightningSingle1").toLowerCase());
+	commandFactory.registerCommand<ForceLightningSingle1Command>(String("forceLightningSingle1_npc").toLowerCase());
 	commandFactory.registerCommand<ForceLightningSingle2Command>(String("forceLightningSingle2").toLowerCase());
+	commandFactory.registerCommand<ForceLightningSingle2Command>(String("forceLightningSingle2_npc").toLowerCase());
 	commandFactory.registerCommand<ForceMeditateCommand>(String("forceMeditate").toLowerCase());
 	commandFactory.registerCommand<ForceOfWillCommand>(String("forceOfWill").toLowerCase());
 	commandFactory.registerCommand<ForceProtectionCommand>(String("forceProtection").toLowerCase());
@@ -996,6 +999,7 @@ void CommandConfigManager::registerCommands() {
 	commandFactory.registerCommand<ForceSpeed2Command>(String("forceSpeed2").toLowerCase());
 	commandFactory.registerCommand<ForceThrow1Command>(String("forceThrow1").toLowerCase());
 	commandFactory.registerCommand<ForceThrow2Command>(String("forceThrow2").toLowerCase());
+	commandFactory.registerCommand<ForceThrow2Command>(String("forceThrow2_npc").toLowerCase());
 	commandFactory.registerCommand<ForceWeaken1Command>(String("forceWeaken1").toLowerCase());
 	commandFactory.registerCommand<ForceWeaken2Command>(String("forceWeaken2").toLowerCase());
 	commandFactory.registerCommand<FormupCommand>(String("formup").toLowerCase());
@@ -1201,7 +1205,9 @@ void CommandConfigManager::registerCommands() {
 	commandFactory.registerCommand<Melee2hSweep1Command>(String("melee2hSweep1").toLowerCase());
 	commandFactory.registerCommand<Melee2hSweep2Command>(String("melee2hSweep2").toLowerCase());
 	commandFactory.registerCommand<MindBlast1Command>(String("mindBlast1").toLowerCase());
+	commandFactory.registerCommand<MindBlast1Command>(String("mindBlast1_npc").toLowerCase());
 	commandFactory.registerCommand<MindBlast2Command>(String("mindBlast2").toLowerCase());
+	commandFactory.registerCommand<MindBlast2Command>(String("mindBlast2_npc").toLowerCase());
 	commandFactory.registerCommand<MindShot1Command>(String("mindShot1").toLowerCase());
 	commandFactory.registerCommand<MindShot2Command>(String("mindShot2").toLowerCase());
 	commandFactory.registerCommand<MinefieldAttackCommand>(String("minefieldAttack").toLowerCase());

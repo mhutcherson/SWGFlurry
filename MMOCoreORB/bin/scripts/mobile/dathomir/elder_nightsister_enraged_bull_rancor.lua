@@ -1,6 +1,6 @@
 elder_nightsister_enraged_bull_rancor = Creature:new {
-   objectName = "@mob/creature_names:",
-   customName = "elder nightsister enraged bull rancor",
+    -- objectName = "@mob/creature_names:",
+    customName = "elder nightsister enraged bull rancor",
 	socialGroup = "nightsister",
 	faction = "nightsister",
 	level = 89,
@@ -10,7 +10,7 @@ elder_nightsister_enraged_bull_rancor = Creature:new {
 	baseXp = 8500,
 	baseHAM = 13000,
 	baseHAMmax = 16000,
-	armor = 1,
+	armor = 0,
 	resists = {40,170,40,200,200,200,40,40,-1},
 	meatType = "meat_carnivore",
 	meatAmount = 880,

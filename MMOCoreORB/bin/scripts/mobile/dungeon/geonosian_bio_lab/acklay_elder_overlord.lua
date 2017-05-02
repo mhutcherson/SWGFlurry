@@ -1,7 +1,7 @@
 acklay_elder_overlord = Creature:new {
-	objectName = "@mob/creature_names:",
+	--objectName = "@mob/creature_names:",
 	customName = "Elder Acklay Overlord",
-	socialGroup = "geonosian_creature",
+	socialGroup = "geonosian",
 	pvpFaction = "",
 	faction = "",
 	level = 300,
@@ -11,7 +11,7 @@ acklay_elder_overlord = Creature:new {
 	baseXp = 248840,
 	baseHAM = 270000,
 	baseHAMmax = 498000,
-	armor = 3,
+	armor = 0,
 	resists = {90,90,90,90,90,90,90,90,90},
 	meatType = "",
 	meatAmount = 0,
@@ -38,7 +38,7 @@ acklay_elder_overlord = Creature:new {
 		},
 		{
 			groups = {
-				{group = "holocron_light", chance = 1000000},
+				{group = "junk", chance = 1000000},
 				{group = "clothing_attachments", chance = 4500000},
 				{group = "armor_attachments", chance = 4500000}
 			},

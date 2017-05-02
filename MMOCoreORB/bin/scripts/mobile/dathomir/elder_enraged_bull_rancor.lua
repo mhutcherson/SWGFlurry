@@ -1,5 +1,5 @@
 elder_enraged_bull_rancor = Creature:new {
-   objectName = "@mob/creature_names:",
+   -- objectName = "@mob/creature_names:",
    customName = "elder enraged bull rancor",
 	socialGroup = "rancor",
 	faction = "",
@@ -10,7 +10,7 @@ elder_enraged_bull_rancor = Creature:new {
 	baseXp = 8500,
 	baseHAM = 13000,
 	baseHAMmax = 16000,
-	armor = 1,
+	armor = 0,
 	resists = {40,170,40,200,200,200,40,40,-1},
 	meatType = "meat_carnivore",
 	meatAmount = 880,

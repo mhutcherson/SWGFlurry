@@ -1,6 +1,6 @@
 enhanced_kwi = Creature:new {
 	objectName = "@mob/creature_names:geonosian_enhanced_kwi",
-	socialGroup = "geonosian_creature",
+	socialGroup = "geonosian",
 	faction = "",
 	level = 85,
 	chanceHit = 1.75,
@@ -9,7 +9,7 @@ enhanced_kwi = Creature:new {
 	baseXp = 10081,
 	baseHAM = 27000,
 	baseHAMmax = 33000,
-	armor = 2,
+	armor = 0,
 	resists = {140,140,5,140,5,5,5,5,-1},
 	meatType = "meat_herbivore",
 	meatAmount = 100,
@@ -30,9 +30,7 @@ enhanced_kwi = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "enhanced_kwi", chance = 5000000},
-				{group = "geonosian_common", chance = 2500000},
-				{group = "geonosian_hard", chance = 2500000}
+				{group = "enhanced_kwi", chance = 10000000}
 			},
 			lootChance = 10000000
 		}

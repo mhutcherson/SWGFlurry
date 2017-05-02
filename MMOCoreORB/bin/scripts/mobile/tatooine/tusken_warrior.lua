@@ -2,10 +2,10 @@ tusken_warrior = Creature:new {
 	objectName = "@mob/creature_names:tusken_warrior",
 	socialGroup = "tusken_raider",
 	faction = "tusken_raider",
-	level = 38,
+	level = 170,
 	chanceHit = 0.43,
-	damageMin = 335,
-	damageMax = 380,
+	damageMin = 135,
+	damageMax = 245,
 	baseXp = 3824,
 	baseHAM = 9100,
 	baseHAMmax = 11100,
@@ -21,30 +21,40 @@ tusken_warrior = Creature:new {
 	tamingChance = 0,
 	ferocity = 0,
 	pvpBitmask = AGGRESSIVE + ATTACKABLE + ENEMY,
- 	creatureBitmask = PACK + KILLER + STALKER,
- 	optionsBitmask = AIENABLED,
+	creatureBitmask = PACK + KILLER + STALKER,
+	optionsBitmask = AIENABLED,
 	diet = HERBIVORE,
 
 	templates = {"object/mobile/tusken_raider.iff"},
 	lootGroups = {
 		{
-			groups = {
-				{group = "junk", chance = 1500000},
-				{group = "tusken_common", chance = 3000000},
-				{group = "wearables_common", chance = 2000000},
-				{group = "bone_armor", chance = 750000},
-				{group = "chitin_armor", chance = 750000},
-				{group = "armor_attachments", chance = 500000},
-				{group = "clothing_attachments", chance = 500000},
-				{group = "color_crystals", chance = 500000},
-				{group = "crystals_poor", chance = 500000}
-			},
-			lootChance = 10000000
-		}
+								groups = {
+									{group = "junk", chance = 5000000},
+									{group = "armor_attachments", chance = 2500000},
+									{group = "clothing_attachments", chance = 2500000}
+	},
+									lootChance = 10000000
+	},
+	{
+                groups = {
+                	{group = "junk", chance = 5000000},
+                	{group = "armor_attachments", chance = 2500000},
+                	{group = "clothing_attachments", chance = 2500000}
+	},
+                	lootChance = 10000000
+	},
+	{
+								groups = {
+									{group = "tusken_common", chance = 5000000},
+									{group = "wearables_common", chance = 2500000},
+									{group = "wearables_uncommon", chance = 2500000}
+	},
+									lootChance = 10000000
+	},
 	},
 	weapons = {"tusken_weapons"},
 	conversationTemplate = "",
-	attacks = merge(brawlermaster,fencermaster,swordsmanmaster,pikemanmaster,tkamaster)
+	attacks = merge(marksmanmaster,brawlermaster,fencermaster,riflemanmaster)
 }
 
 CreatureTemplates:addCreatureTemplate(tusken_warrior, "tusken_warrior")

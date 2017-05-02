@@ -7,10 +7,7 @@
 
 #include "server/zone/managers/player/PlayerManager.h"
 
-#include "server/login/account/AccountManager.h"
-#include "server/zone/packets/charcreation/ClientCreateCharacter.h"
 #include "server/zone/packets/charcreation/ClientCreateCharacterCallback.h"
-#include "server/zone/packets/charcreation/ClientCreateCharacterSuccess.h"
 #include "server/zone/packets/charcreation/ClientCreateCharacterFailed.h"
 #include "server/zone/ZoneServer.h"
 #include "server/zone/ZoneProcessServer.h"
@@ -19,18 +16,14 @@
 #include "server/zone/managers/object/ObjectManager.h"
 #include "server/zone/managers/faction/FactionManager.h"
 #include "server/db/ServerDatabase.h"
-#include "server/db/MantisDatabase.h"
 #include "server/chat/ChatManager.h"
-#include "conf/ConfigManager.h"
 #include "server/zone/managers/objectcontroller/ObjectController.h"
-#include "server/zone/managers/player/VeteranRewardList.h"
 #include "server/zone/managers/combat/CombatManager.h"
 #include "server/zone/managers/skill/Performance.h"
 #include "server/zone/managers/collision/CollisionManager.h"
 #include "server/zone/objects/intangible/VehicleControlDevice.h"
 #include "server/zone/objects/tangible/threat/ThreatMap.h"
 #include "server/zone/objects/creature/VehicleObject.h"
-#include "server/zone/objects/area/ActiveArea.h"
 #include "server/login/packets/ErrorMessage.h"
 #include "server/zone/packets/player/LogoutMessage.h"
 #include "server/zone/objects/player/sessions/TradeSession.h"
@@ -41,10 +34,7 @@
 #include "server/zone/managers/player/QuestInfo.h"
 
 #include "server/zone/objects/intangible/ShipControlDevice.h"
-#include "server/zone/objects/ship/ShipObject.h"
-
 #include "server/zone/objects/group/GroupObject.h"
-
 #include "server/zone/objects/building/BuildingObject.h"
 #include "templates/building/CloningBuildingObjectTemplate.h"
 #include "server/zone/objects/player/PlayerObject.h"
@@ -58,14 +48,11 @@
 #include "server/zone/objects/player/events/MeditateTask.h"
 #include "server/zone/objects/player/events/LogoutTask.h"
 #include "server/zone/objects/player/sessions/EntertainingSession.h"
-
 #include "templates/building/CloneSpawnPoint.h"
-
 #include "server/zone/objects/player/sui/messagebox/SuiMessageBox.h"
 #include "server/zone/objects/player/sui/listbox/SuiListBox.h"
 #include "server/zone/objects/cell/CellObject.h"
 #include "server/zone/managers/skill/SkillManager.h"
-
 #include "server/zone/objects/player/FactionStatus.h"
 #include "server/zone/managers/planet/PlanetManager.h"
 
@@ -73,70 +60,52 @@
 #include "server/zone/packets/trade/AcceptTransactionMessage.h"
 #include "server/zone/packets/trade/UnAcceptTransactionMessage.h"
 #include "server/zone/packets/trade/AddItemMessage.h"
-#include "server/zone/packets/trade/BeginTradeMessage.h"
-#include "server/zone/packets/trade/DenyTradeMessage.h"
 #include "server/zone/packets/trade/TradeCompleteMessage.h"
 #include "server/zone/packets/trade/GiveMoneyMessage.h"
 #include "server/zone/packets/chat/ChatSystemMessage.h"
-#include "server/zone/packets/tangible/UpdatePVPStatusMessage.h"
-
 #include "server/zone/packets/tangible/TangibleObjectDeltaMessage3.h"
 #include "server/zone/packets/player/PlayMusicMessage.h"
-#include "server/zone/packets/player/PlayerObjectDeltaMessage6.h"
 #include "server/zone/packets/object/StartingLocationListMessage.h"
 
 #include "server/zone/objects/region/CityRegion.h"
 #include "server/zone/managers/director/DirectorManager.h"
-
 #include "server/zone/objects/player/sui/callbacks/CloningRequestSuiCallback.h"
-
 #include "server/zone/objects/tangible/tool/CraftingStation.h"
 #include "server/zone/objects/tangible/tool/CraftingTool.h"
 
 #include "server/zone/Zone.h"
 #include "server/zone/managers/player/creation/PlayerCreationManager.h"
 #include "server/ServerCore.h"
-
 #include "server/login/account/Account.h"
 
 #include "server/zone/objects/player/sui/callbacks/PlayerTeachSuiCallback.h"
 #include "server/zone/objects/player/sui/callbacks/PlayerTeachConfirmSuiCallback.h"
 #include "server/zone/objects/player/sui/callbacks/ProposeUnitySuiCallback.h"
 #include "server/zone/objects/player/sui/callbacks/SelectUnityRingSuiCallback.h"
-#include "server/zone/objects/player/sui/callbacks/ConfirmDivorceSuiCallback.h"
 #include "server/zone/objects/player/sui/callbacks/SelectVeteranRewardSuiCallback.h"
 #include "server/zone/objects/player/sui/callbacks/ConfirmVeteranRewardSuiCallback.h"
+#include "server/zone/objects/player/sui/callbacks/ConfirmDivorceSuiCallback.h"
 
 #include "server/zone/managers/stringid/StringIdManager.h"
-
 #include "server/zone/objects/creature/buffs/PowerBoostBuff.h"
-
 #include "server/zone/objects/creature/ai/Creature.h"
+#include "server/zone/objects/creature/ai/NonPlayerCreatureObject.h"
 #include "server/zone/objects/creature/events/DespawnCreatureTask.h"
 #include "server/zone/objects/creature/ai/AiAgent.h"
 #include "server/zone/managers/gcw/GCWManager.h"
-
-#include "server/zone/managers/creature/LairObserver.h"
 #include "server/zone/objects/intangible/PetControlDevice.h"
 #include "server/zone/managers/creature/PetManager.h"
-
 #include "server/zone/objects/creature/events/BurstRunNotifyAvailableEvent.h"
 #include "server/zone/objects/creature/ai/DroidObject.h"
 #include "server/zone/objects/tangible/components/droid/DroidPlaybackModuleDataComponent.h"
-
 #include "server/zone/objects/player/badges/Badge.h"
-
-#include "server/zone/packets/group/GroupObjectDeltaMessage6.h"
-
-#include <iostream>
-
 #include "server/zone/objects/player/Races.h"
 /*  GOTO line 733 for next portion to uncomment:  NGE Player BH system*/
 #include "server/zone/managers/visibility/VisibilityManager.h"
 #include "server/zone/objects/player/sui/callbacks/BountyHuntSuiCallback.h"
 #include "server/zone/objects/player/sui/inputbox/SuiInputBox.h"
 
-int PlayerManagerImplementation::MAX_CHAR_ONLINE_COUNT = 2;
+int PlayerManagerImplementation::MAX_CHAR_ONLINE_COUNT = 4;
 
 PlayerManagerImplementation::PlayerManagerImplementation(ZoneServer* zoneServer, ZoneProcessServer* impl) :
 										Logger("PlayerManager") {
@@ -751,7 +720,12 @@ void PlayerManagerImplementation::killPlayer(TangibleObject* attacker, CreatureO
 	player->sendSystemMessage(stringId);
 
 	player->updateTimeOfDeath();
-	player->clearBuffs(true);
+	//player->clearBuffs(true);
+
+	//Check for FRS Jedi without overt
+	if (player->hasSkill("force_rank_dark_novice") || player->hasSkill("force_rank_light_novice")) {
+		player->setFactionStatus(2);
+	}
 
 	PlayerObject* ghost = player->getPlayerObject();
 	player->setFactionStatus(FactionStatus::ONLEAVE);
@@ -761,10 +735,18 @@ void PlayerManagerImplementation::killPlayer(TangibleObject* attacker, CreatureO
 
 	if (ghost != NULL)
 		ghost->resetIncapacitationTimes();
-		//ghost->setFoodFilling(0);
-		//ghost->setDrinkFilling(0);
+		ghost->setFoodFilling(0);
+		ghost->setDrinkFilling(0);
 	/* NGE BH SYSTEM */
 	if (attacker->isPlayerCreature() && attacker != player) {
+		/*ManagedReference<SuiInputBox*> input = new SuiInputBox(player, SuiWindowType::STRUCTURE_VENDOR_WITHDRAW);
+		input->setPromptTitle("Bounty Hunter Request");
+		input->setPromptText("Place a bounty on your Killer. 25,000 Credits places your Killer on the bounty boards for any Bounty Hunter to hunt.");
+		input->setUsingObject(attacker);
+		input->setCallback(new BountyHuntSuiCallback(player->getZoneServer()));
+
+		player->getPlayerObject()->addSuiBox(input);
+		player->sendMessage(input->generateMessage());*/
 		ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
 		box->setPromptTitle("You have been slain...");
 		box->setPromptText("Would you like to pay 25,000 credits to place a bounty on your killers head?");
@@ -808,10 +790,9 @@ void PlayerManagerImplementation::killPlayer(TangibleObject* attacker, CreatureO
 	CombatManager::instance()->freeDuelList(player, false);
 
 	threatMap->removeAll(true);
-
+	player->removeDefenders();
 	player->dropFromDefenderLists();
 	player->setTargetID(0, true);
-
 	player->notifyObjectKillObservers(attacker);
 }
 
@@ -892,7 +873,6 @@ void PlayerManagerImplementation::sendActivateCloneRequest(CreatureObject* playe
 				closestCloning = location;
 			}
 		}
-
 	} else {
 		if (cr != NULL)
 			closestName = cr->getRegionDisplayedName();
@@ -914,80 +894,119 @@ void PlayerManagerImplementation::sendActivateCloneRequest(CreatureObject* playe
 	if (preDesignatedFacility != NULL && preDesignatedFacility->getZone() == zone)
 		cloneMenu->addMenuItem("@base_player:revive_bind", preDesignatedFacility->getObjectID());
 
+	if (ghost->getJediState() >= 2) {
+		float range = zone->getMaxX() * 2;
+		StringBuffer results;
+		SortedVector<ManagedReference<QuadTreeEntry*> > objects(512, 512);
+		zone->getInRangeObjects(player->getPositionX(), player->getPositionY(), range, &objects, true);
+
+		for (int i = 0; i < objects.size(); ++i) {
+			ManagedReference<SceneObject*> object = cast<SceneObject*>(objects.get(i).get());
+
+			if (object == NULL)
+				continue;
+
+			if(object == player)
+				continue;
+
+			results.deleteAll();
+
+			Locker crlocker(object, player);
+
+			String name = object->getDisplayedName();
+
+			if (!name.toLowerCase().contains("mysterious_shrine"))
+				continue;
+
+			results << name;
+			results << " (" << String::valueOf(object->getWorldPositionX());
+			results << ", " << String::valueOf(object->getWorldPositionY()) << ")";
+
+			cloneMenu->addMenuItem(results.toString(), object->getObjectID());
+		}
+	}
 	ghost->addSuiBox(cloneMenu);
 	player->sendMessage(cloneMenu->generateMessage());
 }
 
 void PlayerManagerImplementation::sendPlayerToCloner(CreatureObject* player, uint64 clonerID, int typeofdeath) {
 	ManagedReference<SceneObject*> cloner = server->getObject(clonerID);
-
-	if (cloner == NULL) {
-		error("Cloning structure is null");
-		return;
-	}
-
+	String name = cloner->getDisplayedName();
+	Coordinate* coordinate;
+	Quaternion* direction;
 	PlayerObject* ghost = player->getPlayerObject();
 
-	if (ghost == NULL)	{
-		error("The player to be cloned is null");
-		return;
+	if (name.toLowerCase().contains("mysterious_shrine")) {
+		Zone* zone = player->getZone();
+		if (cloner->getParent().get() != NULL) {
+			player->switchZone(zone->getZoneName(), cloner->getPositionX(), cloner->getPositionZ(), cloner->getPositionY(), cloner->getParentID());
+		} else {
+			player->switchZone(zone->getZoneName(), cloner->getWorldPositionX(), cloner->getWorldPositionZ(), cloner->getWorldPositionY(), 0);
+		}
+		player->addWounds(CreatureAttribute::HEALTH, 50, true, false);
+		player->addWounds(CreatureAttribute::ACTION, 50, true, false);
+		player->addWounds(CreatureAttribute::MIND, 50, true, false);
+		player->addShockWounds(50, true);
+	} else {
+		if (cloner == NULL) {
+			error("Cloning structure is null");
+			return;
+		}
+
+		if (ghost == NULL)	{
+			error("The player to be cloned is null");
+			return;
+		}
+
+
+		CloningBuildingObjectTemplate* cbot = cast<CloningBuildingObjectTemplate*>(cloner->getObjectTemplate());
+
+		if (cbot == NULL) {
+			error("Not a cloning building template.");
+			return;
+		}
+
+		BuildingObject* cloningBuilding = cloner.castTo<BuildingObject*>();
+
+		if (cloningBuilding == NULL)  {
+			error("Cloning building is null");
+			return;
+		}
+
+		CloneSpawnPoint* clonePoint = cbot->getRandomSpawnPoint();
+
+		if (clonePoint == NULL) {
+			error("clone point null");
+			return;
+		}
+
+		coordinate = clonePoint->getCoordinate();
+		direction = clonePoint->getDirection();
+
+		int cellID = clonePoint->getCellID();
+
+		SceneObject* cell = cloningBuilding->getCell(cellID);
+
+		if (cell == NULL) {
+			StringBuffer msg;
+			msg << "null cell for cellID " << cellID << " in building: " << cbot->getFullTemplateString();
+			error(msg.toString());
+			return;
+		}
+		Zone* zone = player->getZone();
+
+		player->switchZone(zone->getZoneName(), coordinate->getPositionX(), coordinate->getPositionZ(), coordinate->getPositionY(), cell->getObjectID());
+
+		uint64 preDesignatedFacilityOid = ghost->getCloningFacility();
+		ManagedReference<SceneObject*> preDesignatedFacility = server->getObject(preDesignatedFacilityOid);
+
+		if (preDesignatedFacility == NULL || preDesignatedFacility != cloningBuilding || name.toLowerCase().contains("mysterious_shrine")) {
+			player->addWounds(CreatureAttribute::HEALTH, 100, true, false);
+			player->addWounds(CreatureAttribute::ACTION, 100, true, false);
+			player->addWounds(CreatureAttribute::MIND, 100, true, false);
+			player->addShockWounds(100, true);
+		}
 	}
-
-
-	CloningBuildingObjectTemplate* cbot = cast<CloningBuildingObjectTemplate*>(cloner->getObjectTemplate());
-
-	if (cbot == NULL) {
-		error("Not a cloning building template.");
-		return;
-	}
-
-	BuildingObject* cloningBuilding = cloner.castTo<BuildingObject*>();
-
-	if (cloningBuilding == NULL)  {
-		error("Cloning building is null");
-		return;
-	}
-
-	CloneSpawnPoint* clonePoint = cbot->getRandomSpawnPoint();
-
-	if (clonePoint == NULL) {
-		error("clone point null");
-		return;
-	}
-
-	Coordinate* coordinate = clonePoint->getCoordinate();
-	Quaternion* direction = clonePoint->getDirection();
-
-	int cellID = clonePoint->getCellID();
-
-	SceneObject* cell = cloningBuilding->getCell(cellID);
-
-	if (cell == NULL) {
-		StringBuffer msg;
-		msg << "null cell for cellID " << cellID << " in building: " << cbot->getFullTemplateString();
-		error(msg.toString());
-		return;
-	}
-
-	Zone* zone = player->getZone();
-
-	player->switchZone(zone->getZoneName(), coordinate->getPositionX(), coordinate->getPositionZ(), coordinate->getPositionY(), cell->getObjectID());
-
-	uint64 preDesignatedFacilityOid = ghost->getCloningFacility();
-	ManagedReference<SceneObject*> preDesignatedFacility = server->getObject(preDesignatedFacilityOid);
-
-	if (preDesignatedFacility == NULL || preDesignatedFacility != cloningBuilding) {
-		player->addWounds(CreatureAttribute::HEALTH, 100, true, false);
-		player->addWounds(CreatureAttribute::ACTION, 100, true, false);
-		player->addWounds(CreatureAttribute::MIND, 100, true, false);
-		player->addShockWounds(100, true);
-	}
-
-	if (player->getFactionStatus() != FactionStatus::ONLEAVE && cbot->getFaction() == 0)
-		player->setFactionStatus(FactionStatus::ONLEAVE);
-
-	if (ghost->hasPvpTef())
-		ghost->schedulePvpTefRemovalTask(true);
 
 	if (player->hasSkill("force_rank_dark_novice") || player->hasSkill("force_rank_light_novice")) {
 		player->setFactionStatus(2);
@@ -1523,7 +1542,7 @@ void PlayerManagerImplementation::awardExperience(CreatureObject* player, const 
 		return;
 
 	int xp;
-	if (amount <= 0 || xpType == "force_rank_xp" || xpType == "jedi_general") {
+	if (amount <= 0 || xpType == "force_rank_xp" || xpType == "shipwright") {
 		xp = playerObject->addExperience(xpType, amount);
 	} else if (xpType == "imagedesigner" ||
 		xpType == "music" ||
@@ -1549,7 +1568,7 @@ void PlayerManagerImplementation::awardExperience(CreatureObject* player, const 
 		xpType == "crafting_spice" ||
 		xpType == "political" ||
 		xpType == "bountyhunter" ||
-		xpType == "shipwright") {
+		xpType == "jedi_general") {
 		xp = playerObject->addExperience(xpType, (amount * 20));
 	} else {
 		xp = playerObject->addExperience(xpType, (int) (amount * localMultiplier * globalExpMultiplier));
@@ -3218,9 +3237,9 @@ void PlayerManagerImplementation::addInsurableItemsRecursive(SceneObject* obj, S
 		if(item == NULL || item->hasAntiDecayKit())
 			continue;
 
-		if (!(item->getOptionsBitmask() & OptionBitmask::INSURED) && (item->isArmorObject() || item->isWearableObject())) {
+		if (!(item->getOptionsBitmask() & OptionBitmask::INSURED) && (item->isWeaponObject() || item->isArmorObject() || item->isWearableObject())) {
 			items->put(item);
-		} else if ((item->getOptionsBitmask() & OptionBitmask::INSURED) && (item->isArmorObject() || item->isWearableObject()) && !onlyInsurable) {
+		} else if ((item->getOptionsBitmask() & OptionBitmask::INSURED) && (item->isWeaponObject() || item->isArmorObject() || item->isWearableObject()) && !onlyInsurable) {
 			items->put(item);
 		}
 
@@ -3252,9 +3271,9 @@ SortedVector<ManagedReference<SceneObject*> > PlayerManagerImplementation::getIn
 			if(item == NULL || item->hasAntiDecayKit())
 				continue;
 
-			if (!(item->getOptionsBitmask() & OptionBitmask::INSURED) && (item->isArmorObject() || item->isWearableObject())) {
+			if (!(item->getOptionsBitmask() & OptionBitmask::INSURED) && (item->isWeaponObject() || item->isArmorObject() || item->isWearableObject())) {
 				insurableItems.put(item);
-			} else if ((item->getOptionsBitmask() & OptionBitmask::INSURED) && (item->isArmorObject() || item->isWearableObject()) && !onlyInsurable) {
+			} else if ((item->getOptionsBitmask() & OptionBitmask::INSURED) && (item->isWeaponObject() || item->isArmorObject() || item->isWearableObject()) && !onlyInsurable) {
 				insurableItems.put(item);
 			}
 		}

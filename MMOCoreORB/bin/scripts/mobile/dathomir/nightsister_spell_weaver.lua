@@ -11,8 +11,8 @@ nightsister_spell_weaver = Creature:new {
 	baseXp = 10174,
 	baseHAM = 24000,
 	baseHAMmax = 30000,
-	armor = 2,
-	resists = {5,100,5,100,100,100,100,100,-1},
+	armor = 0,
+	resists = {125,125,125,100,100,100,100,100,-1},
 	meatType = "",
 	meatAmount = 0,
 	hideType = "",
@@ -41,6 +41,18 @@ nightsister_spell_weaver = Creature:new {
 				{group = "pistols", chance = 500000},
 				{group = "axkva_min", chance = 500000},
 				{group = "carbines", chance = 1000000}
+			},
+			lootChance = 10000000
+		},
+		{
+			groups = {
+				{group = "nightsister_rare", chance = 10000000},
+			},
+			lootChance = 1500000
+		},
+		{
+	           groups = {
+				{group = "junk", chance = 10000000},
 			},
 			lootChance = 10000000
 		}

@@ -4,15 +4,15 @@ singing_mountain_clan_councilwoman = Creature:new {
 	randomNameTag = true,
 	socialGroup = "mtn_clan",
 	faction = "mtn_clan",
-	level = 253,
-	chanceHit = 23.5,
-	damageMin = 1395,
-	damageMax = 2500,
-	baseXp = 24180,
-	baseHAM = 261000,
-	baseHAMmax = 320000,
-	armor = 3,
-	resists = {100,35,35,100,100,100,100,100,-1},
+	level = 300,
+	chanceHit = 27.25,
+	damageMin = 1520,
+	damageMax = 2750,
+	baseXp = 26654,
+	baseHAM = 321000,
+	baseHAMmax = 392000,
+	armor = 2,
+	resists = {150,150,150,200,200,200,200,200,135},
 	meatType = "",
 	meatAmount = 0,
 	hideType = "",
@@ -31,16 +31,33 @@ singing_mountain_clan_councilwoman = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "crystals_premium",  chance = 1800000},
-				{group = "nightsister_common",  chance = 1200000},
-				{group = "armor_attachments",  chance = 500000},
-				{group = "clothing_attachments",  chance = 2000000},
-				{group = "pistols",  chance = 800000},
-				{group = "rifles",  chance = 800000},
-				{group = "carbines",  chance = 900000},
-				{group = "melee_weapons",  chance = 1000000},
-				{group = "holocron_light",  chance = 500000},
-				{group = "axkva_min",  chance = 500000}
+				{group = "crystals_premium", chance = 2500000},
+				{group = "color_crystals", chance = 2500000},		
+				{group = "nightsister_common", chance = 1900000},
+				{group = "pistols", chance = 500000},
+				{group = "rifles", chance = 500000},
+				{group = "carbines", chance = 500000},
+				{group = "melee_weapons", chance = 1000000},
+				{group = "wearables_rare", chance = 600000}
+			},
+			lootChance = 10000000
+		},
+				{
+			groups = {
+				{group = "armor_attachments", chance = 5000000},
+				{group = "clothing_attachments", chance = 5000000},
+			},
+			lootChance = 8000000
+		},
+		{
+			groups = {
+				{group = "axkva_min", chance = 10000000},
+			},
+			lootChance = 4000000
+		},
+		{
+	        groups = {
+				{group = "junk", chance = 10000000}
 			},
 			lootChance = 10000000
 		}

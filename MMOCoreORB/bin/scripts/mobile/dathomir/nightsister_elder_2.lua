@@ -1,5 +1,5 @@
 nightsister_elder_2 = Creature:new {
-	objectName = "@mob/creature_names:",
+	-- objectName = "@mob/creature_names:",
 	customName = "Nightsister Elder 2",
 	randomNameTag = true,
 	socialGroup = "nightsister",
@@ -11,7 +11,7 @@ nightsister_elder_2 = Creature:new {
 	baseXp = 27849,
 	baseHAM = 321000,
 	baseHAMmax = 392000,
-	armor = 3,
+	armor = 0,
 	resists = {70,70,70,70,70,70,70,70,70},
 	meatType = "",
 	meatAmount = 0,

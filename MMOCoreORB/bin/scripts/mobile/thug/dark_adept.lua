@@ -11,7 +11,7 @@ dark_adept = Creature:new {
 	baseXp = 13178,
 	baseHAM = 50000,
 	baseHAMmax = 61000,
-	armor = 2,
+	armor = 0,
 	resists = {80,80,80,80,80,80,80,80,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -31,8 +31,8 @@ dark_adept = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "holocron_dark", chance = 400000},
-				{group = "holocron_light", chance = 400000},
+				{group = "junk", chance = 400000},
+				{group = "junk", chance = 400000},
 				{group = "crystals_premium", chance = 400000},
 				{group = "color_crystals", chance = 1000000},
 				{group = "rifles", chance = 1300000},

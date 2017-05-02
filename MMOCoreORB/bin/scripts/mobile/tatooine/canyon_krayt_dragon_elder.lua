@@ -1,6 +1,6 @@
 canyon_krayt_dragon_elder = Creature:new {
-	objectName = "@mob/creature_names:",
-	customName = "Canyon Krayt Dragon Elder",
+	-- objectName = "@mob/creature_names:",
+	customName = "canyon crayt dragon elder",
 	socialGroup = "krayt",
 	faction = "",
 	level = 275,
@@ -10,8 +10,8 @@ canyon_krayt_dragon_elder = Creature:new {
 	baseXp = 26356,
 	baseHAM = 321000,
 	baseHAMmax = 392000,
-	armor = 3,
-	resists = {160,160,160,160,120,160,160,160,-1},
+	armor = 2,
+	resists = {160,160,160,160,120,160,160,160,135},
 	meatType = "meat_carnivore",
 	meatAmount = 1000,
 	hideType = "hide_bristley",
@@ -25,18 +25,42 @@ canyon_krayt_dragon_elder = Creature:new {
 	creatureBitmask = PACK + KILLER + STALKER,
 	optionsBitmask = AIENABLED,
 	diet = CARNIVORE,
-
 	templates = {"object/mobile/canyon_krayt_dragon.iff"},
-	scale = 0.9;
+	scale = 0.9,
 	lootGroups = {
 		{
-	        groups = {
-					{group = "krayt_tissue_uncommon", chance = 2000000},
-					{group = "krayt_dragon_common2", chance = 2000000},
-					{group = "pearls_premium", chance = 2000000},
-					{group = "clothing_attachments", chance = 4000000},
+	        	groups = {
+				{group = "krayt_dragon_common", chance = 6000000},
+				{group = "krayt_tissue_uncommon", chance = 3000000},
+				{group = "armor_all", chance = 500000},
+				{group = "weapons_all", chance = 500000}
 			},
 			lootChance = 10000000
+		},
+		{
+	        groups = {
+				{group = "armor_attachments", chance = 5000000},
+				{group = "clothing_attachments", chance = 5000000}
+			},
+			lootChance = 5000000
+		},
+		{
+	        groups = {
+				{group = "junk", chance = 10000000}
+			},
+			lootChance = 10000000
+		},
+		{
+	        groups = {
+				{group = "krayt_tissue_rare", chance = 10000000}
+			},
+			lootChance = 1500000
+		},
+		{
+	        groups = {
+				{group = "pearls_premium", chance = 10000000}
+			},
+			lootChance = 2000000
 		}
 	},
 	weapons = {},

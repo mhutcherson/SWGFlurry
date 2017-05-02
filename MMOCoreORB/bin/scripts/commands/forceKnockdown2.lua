@@ -58,7 +58,7 @@ ForceKnockdown2Command = {
 		{ "knockdownRecovery", "lastKnockdown" },
 		{ "force_defense" },
 		{},
-		65,
+		80,
 		0,
 		0
 	  )
@@ -72,7 +72,7 @@ ForceKnockdown2Command = {
 
 	forceAttack = true,
 
-	range = 32
+	range = 45
 }
 
 AddCommand(ForceKnockdown2Command)

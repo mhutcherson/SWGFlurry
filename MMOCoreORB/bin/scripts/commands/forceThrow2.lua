@@ -44,10 +44,10 @@
 ForceThrow2Command = {
 	name = "forcethrow2",
 
-	minDamage = 1500,
-	maxDamage = 6250,
+	minDamage = 900,
+	maxDamage = 1200,
 	speed = 1.0,
-	forceCost = 56,
+	forceCost = 55,
 	visMod = 25,
 	accuracySkillMod = "forcethrow_accuracy",
 	accuracyBonus = 95,
@@ -71,10 +71,10 @@ ForceThrow2Command = {
 
 	poolsToDamage = RANDOM_ATTRIBUTE,
 
-	forceAttack = true,
-	damageType = FORCEPOWER_DAMAGE,
+	forceAttack = false,
+	damageType = LIGHTSABER_DAMAGE,
 
-	range = 32
+	range = 45
 }
 
 AddCommand(ForceThrow2Command)

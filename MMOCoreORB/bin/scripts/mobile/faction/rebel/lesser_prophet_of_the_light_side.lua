@@ -11,7 +11,7 @@ lesser_prophet_of_the_light_side = Creature:new {
 	baseXp = 8130,
 	baseHAM = 13000,
 	baseHAMmax = 16000,
-	armor = 1,
+	armor = 0,
 	resists = {40,40,40,40,40,40,40,40,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -31,7 +31,7 @@ lesser_prophet_of_the_light_side = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "holocron_light", chance = 600000},
+				{group = "junk", chance = 600000},
 				{group = "crystals_quality", chance = 600000},
 				{group = "color_crystals", chance = 1000000},
 				{group = "rifles", chance = 1300000},

@@ -4,8 +4,6 @@
 
 #include "SuiManager.h"
 
-#include "server/zone/managers/radial/RadialManager.h"
-
 #include "server/zone/ZoneProcessServer.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/player/sui/SuiWindowType.h"
@@ -13,51 +11,22 @@
 #include "server/zone/objects/player/sui/characterbuilderbox/SuiCharacterBuilderBox.h"
 #include "server/zone/objects/player/sui/transferbox/SuiTransferBox.h"
 #include "server/zone/objects/creature/commands/UnconsentCommand.h"
-#include "server/zone/managers/objectcontroller/ObjectController.h"
-#include "server/zone/managers/resource/ResourceManager.h"
 #include "server/zone/managers/skill/SkillManager.h"
-#include "server/zone/managers/planet/PlanetManager.h"
-#include "server/zone/objects/group/GroupObject.h"
-#include "server/zone/packets/chat/ChatSystemMessage.h"
-#include "server/zone/objects/player/sui/SuiBox.h"
 #include "server/zone/objects/player/sui/listbox/SuiListBox.h"
 #include "server/zone/objects/player/sui/inputbox/SuiInputBox.h"
 #include "server/zone/objects/player/sui/messagebox/SuiMessageBox.h"
-#include "server/zone/Zone.h"
 #include "server/zone/ZoneServer.h"
 #include "server/zone/managers/minigames/FishingManager.h"
-#include "server/zone/managers/minigames/GamblingManager.h"
-#include "server/zone/objects/tangible/tool/SurveyTool.h"
-#include "server/zone/objects/tangible/ticket/TicketObject.h"
-#include "server/zone/objects/installation/InstallationObject.h"
-#include "server/zone/objects/installation/factory/FactoryObject.h"
 #include "server/zone/objects/player/sui/keypadbox/SuiKeypadBox.h"
 #include "server/zone/objects/player/sui/callbacks/LuaSuiCallback.h"
 #include "server/zone/objects/tangible/terminal/characterbuilder/CharacterBuilderTerminal.h"
-#include "server/zone/objects/tangible/deed/resource/ResourceDeed.h"
-#include "server/zone/managers/planet/MapLocationType.h"
-#include "server/zone/managers/city/CityManager.h"
-#include "server/zone/objects/creature/commands/FindCommand.h"
-#include "server/zone/objects/creature/commands/sui/DestroyCommandSuiCallback.h"
-#include "server/zone/objects/player/sessions/sui/FindSessionSuiCallback.h"
-#include "server/zone/objects/creature/commands/sui/ListGuildsResponseSuiCallback.h"
-#include "server/zone/objects/player/sessions/sui/SlicingSessionSuiCallback.h"
-#include "server/zone/objects/player/sessions/vendor/sui/CreateVendorSuiCallback.h"
-#include "server/zone/objects/player/sessions/vendor/sui/NameVendorSuiCallback.h"
-#include "server/zone/objects/creature/sui/RepairVehicleSuiCallback.h"
-#include "server/zone/objects/creature/commands/sui/InstallMissionTerminalSuiCallback.h"
-#include "server/zone/objects/creature/commands/sui/RecruitSkillTrainerSuiCallback.h"
 #include "templates/params/creature/CreatureAttribute.h"
 #include "templates/params/creature/CreatureState.h"
-#include "server/zone/objects/tangible/tool/sui/SurveyToolSetRangeSuiCallback.h"
-#include "server/zone/managers/guild/GuildManager.h"
-#include "server/zone/objects/tangible/terminal/guild/GuildTerminal.h"
-#include "server/zone/objects/guild/GuildObject.h"
-#include "server/zone/objects/tangible/sign/SignObject.h"
 #include "server/zone/objects/tangible/deed/eventperk/EventPerkDeed.h"
 #include "server/zone/objects/tangible/eventperk/Jukebox.h"
 #include "server/zone/objects/tangible/eventperk/ShuttleBeacon.h"
 #include "server/zone/objects/player/sui/SuiBoxPage.h"
+#include "server/zone/managers/loot/LootManager.h"
 
 SuiManager::SuiManager() : Logger("SuiManager") {
 	server = NULL;
@@ -76,6 +45,7 @@ void SuiManager::handleSuiEventNotification(uint32 boxID, CreatureObject* player
 		return;
 
 	ManagedReference<SuiBox*> suiBox = ghost->getSuiBox(boxID);
+
 
 	if (suiBox == NULL)
 		return;
@@ -155,9 +125,6 @@ void SuiManager::handleSuiEventNotification(uint32 boxID, CreatureObject* player
 		break;
 	case SuiWindowType::CHARACTER_BUILDER_LIST:
 		handleCharacterBuilderSelectItem(player, suiBox, eventIndex, args);
-		break;
-	case SuiWindowType::MEDIC_DIAGNOSE:
-		handleDiagnose(player, suiBox, eventIndex, args);
 		break;
 	case SuiWindowType::OBJECT_NAME:
 		handleSetObjectName(player, suiBox, eventIndex, args);
@@ -250,42 +217,6 @@ void SuiManager::handleStartMusic(CreatureObject* player, SuiBox* suiBox, uint32
 	}
 }
 
-/*
-void SuiManager::handleTicketCollectorResponse(CreatureObject* player, SuiBox* suiBox, uint32 cancel, Vector<UnicodeString>* args) {
-	if (!suiBox->isListBox() || cancel != 0)
-		return;
-
-	if (args->size() < 1)
-		return;
-
-	SuiListBox* listBox = cast<SuiListBox*>( suiBox);
-
-	int index = Integer::valueOf(args->get(0).toString());
-
-	uint64 ticketObjectID = listBox->getMenuObjectID(index);
-
-	if (ticketObjectID == 0)
-		return;
-
-	ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
-
-	if (inventory == NULL)
-		return;
-
-	ManagedReference<SceneObject*> obj = inventory->getContainerObject(ticketObjectID);
-
-	if (obj == NULL || !obj->isTangibleObject())
-		return;
-
-	TangibleObject* tano = cast<TangibleObject*>( obj.get());
-
-	if (!tano->isTicketObject())
-		return;
-
-	TicketObject* ticket = cast<TicketObject*>( tano);
-	ticket->handleObjectMenuSelect(player, 20);
-}
- */
 void SuiManager::handleBankTransfer(CreatureObject* player, SuiBox* suiBox, uint32 cancel, Vector<UnicodeString>* args) {
 	if (!suiBox->isBankTransferBox() || cancel != 0)
 		return;
@@ -426,6 +357,42 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 			return;
 
 		String templatePath = node->getTemplatePath();
+		
+		int galaxyid = zserv->getGalaxyID();
+ 
+ 		if (galaxyid == 2) {
+ 			if ((templatePath == "unlearn_all_skills"
+ 			|| templatePath == "cleanse_character"
+ 			|| templatePath == "reset_buffs"
+ 			|| templatePath == "enhance_character"
+ 			|| templatePath == "apply_dots"
+ 			|| templatePath == "clear_dots"
+ 			|| templatePath == "language"
+			|| templatePath == "corellia_bela_vistal_a_shuttleport_travel"
+			|| templatePath == "corellia_bela_vistal_b_shuttleport_travel"
+			|| templatePath == "corellia_coronet_starport_travel"
+			|| templatePath == "corellia_coronet_a_shuttle_travel"
+			|| templatePath == "corellia_coronet_b_shuttle_travel"
+			|| templatePath == "doaba_guerfel_shuttleport_travel"
+			|| templatePath == "doaba_guerfel_starport_travel"
+			|| templatePath == "kor_vella_shuttleport_travel"
+			|| templatePath == "kor_vella_starport_travel"
+			|| templatePath == "tyrena_a_shuttle_travel"
+			|| templatePath == "tyrena_b_shuttle_travel"
+			|| templatePath == "tyrena_starport_travel"
+			|| templatePath == "vreni_island_shuttle_travel"
+			|| templatePath == "argilat_swamp_badge"
+			|| templatePath == "bela_vistal_fountain_badge"
+			|| templatePath == "rebel_hideout_badge"
+			|| templatePath == "rogue_corsec_base_badge"
+			|| templatePath == "tyrena_theater_badge"
+ 			|| templatePath == "social_politician_master") && ghost->getAdminLevel() < 15) {
+ 			} else if (ghost->getAdminLevel() < 15) {
+ 				info("WARNING! " + player->getFirstName() + " attempted to use a character builder", true);
+ 				player->sendSystemMessage("You Do Not Have Permission To Do That!");
+ 				return;
+ 			}
+ 		}
 
 		if (templatePath.indexOf(".iff") < 0) { // Non-item selections
 
@@ -589,7 +556,574 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 			} else if (templatePath == "max_xp") {
 				ghost->maximizeExperience();
 				player->sendSystemMessage("You have maximized all xp types.");
+				
+			} else if (templatePath == "saberhand1") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand1", playerName, 300);//, playerName);
 
+			} else if (templatePath == "saberhand2") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand2", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand3") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand3", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand4") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand4", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand5") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand5", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand6") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand6", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand7") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand7", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand8") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand8", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand9") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand9", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand10") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand10", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand11") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand11", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand12") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand12", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand13") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand13", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand14") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand14", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand15") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand15", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand16") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand16", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand17") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand17", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand18") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand18", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand19") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand19", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand20") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand20", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand21") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand21", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand22") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand22", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand23") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand23", playerName, 300);//, playerName);
+
+			} else if (templatePath == "saberhand24") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "saberhand24", playerName, 300);//, playerName);
+				
+			} else if (templatePath == "armor_attachments") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "armor_attachments", playerName, 300);//, playerName);
+				
+			} else if (templatePath == "clothing_attachments") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "clothing_attachments", playerName, 300);//, playerName);
+				
+			} else if (templatePath == "jedi_rings") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "jedi_rings", playerName, 300);//, playerName);
+				
+			} else if (templatePath == "jedi_neck") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "jedi_neck", playerName, 300);//, playerName);
+				
+			} else if (templatePath == "jedi_earings") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "jedi_earings", playerName, 300);//, playerName);
+				
+			} else if (templatePath == "jedi_bracelets") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "jedi_bracelets", playerName, 300);//, playerName);
+
+			} else if (templatePath == "color_crystals") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "color_crystals", playerName, 300);//, playerName);
+
+			} else if (templatePath == "g_named_crystals") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "g_named_crystals", playerName, 300);//, playerName);
+				
+			} else if (templatePath == "pearls_flawless") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "pearls_flawless", playerName, 300);//, playerName);
+
+			} else if (templatePath == "nightsister_rare") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "nightsister_rare", playerName, 300);//, playerName);
+
+			} else if (templatePath == "krayt_tissue_rare") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "krayt_tissue_rare", playerName, 300);//, playerName);
+
+			} else if (templatePath == "gorax_rare") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "gorax_rare", playerName, 300);//, playerName);
+				
+			} else if (templatePath == "armor_attachments") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "armor_attachments", playerName, 300);//, playerName);
+				
+			} else if (templatePath == "clothing_attachments") {
+                                String playerName = player->getFirstName();
+	                        ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
+	                        ManagedReference<LootManager*> lootManager = player->getZoneServer()->getLootManager();
+				lootManager->createNamedLoot(inventory, "clothing_attachments", playerName, 300);//, playerName);
+				
+			} else if (templatePath == "set_jedi_state") {
+				ghost->setJediState(2);
+
+			} else if (templatePath == "corellia_bela_vistal_a_shuttleport_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Bela Vistal Shuttleport A");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", 6648, 330, -5926);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "corellia_bela_vistal_b_shuttleport_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Bela Vistal Shuttleport B");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", 6929, 330, -5529);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "corellia_coronet_starport_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Coronet Starport");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -67, 28, -4714);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "corellia_coronet_a_shuttle_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Coronet Shuttle A");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -67, 28, -4714);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "corellia_coronet_b_shuttle_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Coronet Shuttle B");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -67, 28, -4714);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "doaba_guerfel_shuttleport_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Doaba Guerfel Shuttleport");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -67, 28, -4714);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "doaba_guerfel_starport_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Doaba Guerfel Starport");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -67, 28, -4714);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "kor_vella_shuttleport_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Kor Vella Shuttleport");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -67, 28, -4714);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "kor_vella_starport_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Kor Vella Stareport");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -67, 28, -4714);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "tyrena_a_shuttle_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Tyrena Shuttle A");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -67, 28, -4714);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "tyrena_b_shuttle_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Tyrena Shuttle B");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -67, 28, -4714);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "tyrena_starport_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Tyrena Starport");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -67, 28, -4714);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "vreni_island_shuttle_travel") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("Vreni Island Shuttle");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -67, 28, -4714);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "argilat_swamp_badge") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("POI Argilat Swamp Badge");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", 1387, 30, 3749);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "bela_vistal_fountain_badge") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("POI Bela Vistal Fountain Badge");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", 6767, 30, -5617);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "rebel_hideout_badge") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("POI Rebel Hideout");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -6530, 30, 5967);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "rogue_corsec_base_badge") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("POI Rogue Corsec Base Badge");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", 5291, 30, 1494);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "tyrena_theater_badge") {
+				if (player->getCashCredits() < 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("POI Tyrena Theater Badge");
+		                box->setPromptText("Travel Coast 5,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 4999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("corellia", -5418, 30, -6248);
+ 					player->subtractCashCredits(5000);
+					box->setForceCloseDistance(5.f);
+			        }
+			} else if (templatePath == "world_boss_1") {
+				if (player->getCashCredits() < 99999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("World Travels");
+		                box->setPromptText("Travel Coast 100,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 99999) {
+					player->sendSystemMessage("Thank you for your travels.");
+ 				        player->switchZone("yavin4", -5575, 87, 4905);
+ 					player->subtractCashCredits(100000);
+			        }
+			} else if (templatePath == "world_boss_2") {
+				if (player->getCashCredits() < 99999) {
+		                ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::CITY_ADMIN_CONFIRM_UPDATE_TYPE);
+		                box->setPromptTitle("World Travels");
+		                box->setPromptText("Travel Coast 100,000 credits. (Cash)");
+		                box->setOkButton(true, "@cancel");
+		                box->setUsingObject(player);
+		                player->getPlayerObject()->addSuiBox(box);
+		                player->sendMessage(box->generateMessage());
+			        }
+				if (player->getCashCredits() > 99999) {
+					player->sendSystemMessage("Thank you for your travels.");
+				        player->switchZone("yavin4", 5079, 87, 305);
+					player->subtractCashCredits(100000);
+			        }
 			} else if (templatePath == "become_glowy") {
 				bluefrog->grantGlowyBadges(player);
 
@@ -680,9 +1214,6 @@ void SuiManager::handleCharacterBuilderSelectItem(CreatureObject* player, SuiBox
 	}
 }
 
-void SuiManager::handleDiagnose(CreatureObject* player, SuiBox* suiBox, uint32 cancel, Vector<UnicodeString>* args) {
-}
-
 void SuiManager::handleConsentBox(CreatureObject* player, SuiBox* suiBox, uint32 cancel, Vector<UnicodeString>* args) {
 	if (!suiBox->isListBox() || cancel != 0)
 		return;
@@ -750,8 +1281,6 @@ void SuiManager::sendConfirmSui(SceneObject* terminal, SceneObject* player, cons
 	}
 
 }
-
-
 
 void SuiManager::sendInputBox(SceneObject* terminal, SceneObject* player, const String& play, const String& callback, const String& prompt, const String& button) {
 	if (terminal == NULL)

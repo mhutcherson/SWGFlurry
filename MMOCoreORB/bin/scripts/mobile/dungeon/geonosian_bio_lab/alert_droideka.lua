@@ -9,7 +9,7 @@ alert_droideka = Creature:new {
 	baseXp = 8223,
 	baseHAM = 14000,
 	baseHAMmax = 17000,
-	armor = 1,
+	armor = 0,
 	resists = {140,155,110,125,125,-1,40,40,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -29,14 +29,12 @@ alert_droideka = Creature:new {
 	lootGroups = {
          {
 			groups = {
-				{group = "geonosian_cubes", chance = 5000000},
-				{group = "geonosian_common", chance = 2500000},
-				{group = "geonosian_hard", chance =2500000}
+				{group = "geonosian_cubes", chance = 10000000}
 			},
 			lootChance = 10000000
-	    }
+	    }	
 	},
-	defaultAttack = "creaturerangedattack",
+	defaultAttack = "attack",
 	defaultWeapon = "object/weapon/ranged/droid/droid_droideka_ranged.iff",
 }
 

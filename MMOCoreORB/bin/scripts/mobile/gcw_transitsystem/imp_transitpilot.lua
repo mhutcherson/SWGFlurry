@@ -1,5 +1,5 @@
 imp_transitpilot = Creature:new {
-   objectName = "@mob/creature_names:Transitpilot",
+   --objectName = "@mob/creature_names:Transitpilot",
    customName = "Imperial Factional Pilot",
    socialGroup = "imperial",
    pvpFaction = "imperial",
@@ -24,7 +24,7 @@ imp_transitpilot = Creature:new {
    ferocity = 0,
    pvpBitmask = NONE,
    creatureBitmask = NONE,
-   optionsBitmask = 264, --for conversation
+   optionsBitmask = INVULNERABLE + INTERESTING + 264,
    diet = HERBIVORE,
 
    templates = {"object/mobile/dressed_imperial_lieutenant_m.iff"},

@@ -159,6 +159,8 @@ includeFile("conversations/recruiter/imperial_recruiter_conv.lua")
 
 -- Heralds
 includeFile("conversations/tasks/heralds/herald_conv.lua")
+includeFile("conversations/tasks/heralds/herald_corellia1_conv.lua")
+includeFile("conversations/tasks/heralds/herald_corellia2_conv.lua")
 includeFile("conversations/tasks/heralds/herald_lok1_conv.lua")
 includeFile("conversations/tasks/heralds/herald_lok2_conv.lua")
 includeFile("conversations/tasks/heralds/herald_naboo1_conv.lua")
@@ -280,4 +282,7 @@ includeFile("conversations/gcw_transitsystem/reb_transitconvo.lua")
 
 -- World Boss Exchange System
 includeFile("conversations/events/world_exchange.lua")
-
+includeFile("conversations/events/imperial_exchange.lua")
+includeFile("conversations/events/rebel_exchange.lua")
+includeFile("conversations/events/holo_exchange.lua")
+includeFile("conversations/events/painting_exchange.lua")

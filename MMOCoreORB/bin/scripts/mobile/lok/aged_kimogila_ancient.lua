@@ -1,5 +1,5 @@
 aged_kimogila_ancient = Creature:new {
-	objectName = "@mob/creature_names:",
+	--objectName = "@mob/creature_names:",
 	customName = "aged kimogila ancient",
 	socialGroup = "kimogila",
 	faction = "",
@@ -10,7 +10,7 @@ aged_kimogila_ancient = Creature:new {
 	baseXp = 13671,
 	baseHAM = 81000,
 	baseHAMmax = 99000,
-	armor = 2,
+	armor = 0,
 	resists = {135,180,20,180,20,20,200,20,-1},
 	meatType = "meat_carnivore",
 	meatAmount = 700,

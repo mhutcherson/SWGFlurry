@@ -11,7 +11,7 @@ death_watch_black_sun_henchman = Creature:new {
 	baseXp = 7207,
 	baseHAM = 15000,
 	baseHAMmax = 15000,
-	armor = 1,
+	armor = 0,
 	resists = {35,35,50,25,45,60,25,30,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -32,11 +32,7 @@ death_watch_black_sun_henchman = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "death_watch_bunker_commoners", chance = 6000000},
-				{group = "rifles", chance = 1000000},
-				{group = "pistols", chance = 1000000},
-				{group = "clothing_attachments", chance = 1000000},
-				{group = "armor_attachments", chance = 1000000}
+				{group = "death_watch_bunker_commoners", chance = 10000000}
 			},
 			lootChance = 10000000
 		}

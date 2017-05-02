@@ -4,10 +4,10 @@ saber11 = {
 	minimumLevel = 0,
 	maximumLevel = -1,
 	customObjectName = "",
-	directObjectTemplate = "object/weapon/melee/polearm/crafted_saber/sword_lightsaber_polearm_gen5.iff",
+	directObjectTemplate = "object/weapon/melee/2h_sword/crafted_saber/sword_lightsaber_two_handed_pvp_bf.iff",
 	craftingValues = {
 		{"mindamage",103,198,0},
-		{"maxdamage",235,436,0},
+		{"maxdamage",235,250,0},
 		{"attackspeed",8.5,5.8,1},
 		{"woundchance",11,20,0},
 		{"hitpoints",750,1500,0},

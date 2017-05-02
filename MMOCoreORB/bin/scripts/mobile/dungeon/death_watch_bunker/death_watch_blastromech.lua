@@ -9,7 +9,7 @@ death_watch_blastromech = Creature:new {
 	baseXp = 7668,
 	baseHAM = 12000,
 	baseHAMmax = 15000,
-	armor = 1,
+	armor = 0,
 	resists = {145,165,200,160,200,125,140,175,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -37,7 +37,7 @@ death_watch_blastromech = Creature:new {
 	},
 	conversationTemplate = "",
 	defaultWeapon = "object/weapon/ranged/droid/droid_astromech_ranged.iff",
-	defaultAttack = "creaturerangedattack",
+	defaultAttack = "attack",
 }
 
 CreatureTemplates:addCreatureTemplate(death_watch_blastromech, "death_watch_blastromech")

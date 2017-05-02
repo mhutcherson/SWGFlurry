@@ -2,15 +2,16 @@ tusken_executioner = Creature:new {
 	objectName = "@mob/creature_names:tusken_executioner",
 	socialGroup = "tusken_raider",
 	faction = "tusken_raider",
-	level = 263,
-	chanceHit = 23.5,
-	damageMin = 1645,
-	damageMax = 3000,
+	level = 275,
+	chanceHit = 25.0,
+	damageMin = 1500,
+	damageMax = 2500,
+	specialDamageMult = 2.0,
 	baseXp = 25167,
-	baseHAM = 261000,
-	baseHAMmax = 320000,
-	armor = 3,
-	resists = {85,80,35,100,20,30,45,80,-1},
+	baseHAM = 350000,
+	baseHAMmax = 400000,
+	armor = 2,
+	resists = {95,95,95,95,95,95,95,95,75},
 	meatType = "",
 	meatAmount = 0,
 	hideType = "",
@@ -24,28 +25,48 @@ tusken_executioner = Creature:new {
 	creatureBitmask = PACK + KILLER,
 	optionsBitmask = AIENABLED,
 	diet = HERBIVORE,
-
 	templates = {"object/mobile/tusken_raider.iff"},
 	lootGroups = {
 		{
-			groups = {
-				{group = "tusken_common", chance = 2000000},
-				{group = "wearables_scarce", chance = 1500000},
-				{group = "bone_armor", chance = 750000},
-				{group = "chitin_armor", chance = 750000},
-				{group = "armor_attachments", chance = 1000000},
-				{group = "clothing_attachments", chance = 1500000},
-				{group = "color_crystals", chance = 500000},
-				{group = "crystals_premium", chance = 500000},
-				{group = "g_named_crystals", chance = 750000},
-				{group = "g_named_crystals", chance = 750000}
-			},
+	        groups = {
+			{group = "tusken_common", chance = 5000000},
+			{group = "wearables_scarce", chance = 4000000},
+			{group = "color_crystals", chance = 500000},
+			{group = "pearls_flawless", chance = 500000}
+	},
 			lootChance = 10000000
-		}
+	},
+	{
+	        groups = {
+			{group = "armor_attachments", chance = 5000000},
+			{group = "clothing_attachments", chance = 5000000}
+	},
+			lootChance = 10000000
+	},
+	{
+	        groups = {
+			{group = "junk", chance = 10000000}
+	},
+			lootChance = 10000000
+	},
+	{
+	        groups = {
+			{group = "nge2", chance = 10000000}
+	},
+			lootChance = 5000000
+	},
+	{
+                groups = {
+                	{group = "junk", chance = 5000000},
+                	{group = "armor_attachments", chance = 2500000},
+                	{group = "clothing_attachments", chance = 2500000}
+	},
+                	lootChance = 10000000
+	},
 	},
 	weapons = {"tusken_weapons"},
 	conversationTemplate = "",
-	attacks = merge(brawlermaster,fencermaster,swordsmanmaster,pikemanmaster,tkamaster)
+	attacks = merge(marksmanmaster,brawlermaster,fencermaster,riflemanmaster)
 }
 
 CreatureTemplates:addCreatureTemplate(tusken_executioner, "tusken_executioner")

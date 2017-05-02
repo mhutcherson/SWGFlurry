@@ -1,5 +1,6 @@
 krayt_elder = Creature:new {
 	customName = "krayt (Elder)",
+	socialGroup = "krayt",
 	level = 15,
 	chanceHit = 19.75,
 	damageMin = 1270,
@@ -7,7 +8,7 @@ krayt_elder = Creature:new {
 	baseXp = 21630,
 	baseHAM = 208000,
 	baseHAMmax = 254000,
-	armor = 3,
+	armor = 0,
 	resists = {185,185,135,200,10,130,145,180,-1},
 	meatType = "meat_herbivore",
 	meatAmount = 450,

@@ -7,7 +7,6 @@
 #include "engine/engine.h"
 
 
-#include "server/zone/objects/tangible/component/Component.h"
 #include "server/zone/objects/player/sui/messagebox/SuiMessageBox.h"
 #include "server/zone/objects/tangible/component/lightsaber/LightsaberCrystalComponent.h"
 #include "server/zone/packets/object/ObjectMenuResponse.h"
@@ -69,10 +68,26 @@ void LightsaberCrystalComponentImplementation::fillAttributeList(AttributeListMe
 			StringBuffer str2;
 			str2 << "@jedi_spam:saber_color_" << getColor();
 			alm->insertAttribute("color", str2);
+			alm->insertAttribute("mindamage", minimumDamage);
+			alm->insertAttribute("maxdamage", maximumDamage);
+			alm->insertAttribute("wpn_attack_speed", attackSpeed);
+			alm->insertAttribute("wpn_wound_chance", woundChance);
+			alm->insertAttribute("wpn_attack_cost_health", sacHealth);
+			alm->insertAttribute("wpn_attack_cost_action", sacAction);
+			alm->insertAttribute("wpn_attack_cost_mind", sacMind);
+			alm->insertAttribute("forcecost", (int)getForceCost());
 		} else {
 			StringBuffer str3;
 			str3 << "@jedi_spam:saber_color_" << getColor();
 			alm->insertAttribute("color", str3);
+			alm->insertAttribute("mindamage", minimumDamage);
+			alm->insertAttribute("maxdamage", maximumDamage);
+			alm->insertAttribute("wpn_attack_speed", attackSpeed);
+			alm->insertAttribute("wpn_wound_chance", woundChance);
+			alm->insertAttribute("wpn_attack_cost_health", sacHealth);
+			alm->insertAttribute("wpn_attack_cost_action", sacAction);
+			alm->insertAttribute("wpn_attack_cost_mind", sacMind);
+			alm->insertAttribute("forcecost", (int)getForceCost());
 		}
 	}
 

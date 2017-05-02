@@ -1,5 +1,5 @@
 Mihpisto = Creature:new {
-	objectName = "@mob/creature_names:",
+	--objectName = "@mob/creature_names:",
 	customName = "Mihpisto (Odious Collector)",
 	socialGroup = "",
 	pvpFaction = "",
@@ -11,7 +11,7 @@ Mihpisto = Creature:new {
 	baseXp = 27849,
 	baseHAM = 1321000,
 	baseHAMmax = 1592000,
-	armor = 3,
+	armor = 0,
 	resists = {70,70,70,70,70,70,70,70,70},
 	meatType = "",
 	meatAmount = 0,
@@ -34,73 +34,17 @@ Mihpisto = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "geonosian_common", chance = 10000000}
+				{group = "junk", chance = 5000000},
+				{group = "armor_all", chance = 2500000},
+				{group = "weapons_all", chance = 2500000}
 			},
 			lootChance = 10000000
 		},
 		{
 			groups = {
-				{group = "geonosian_common", chance = 10000000}
-			},
-			lootChance = 10000000
-		},
-		{
-			groups = {
-				{group = "geonosian_common", chance = 10000000}
-			},
-			lootChance = 10000000
-		},
-		{
-			groups = {
-				{group = "geonosian_common", chance = 10000000}
-			},
-			lootChance = 10000000
-		},
-		  {
-			groups = {
-				{group = "geonosian_common", chance = 10000000}
-		},
-			lootChance = 10000000
-		  },
-		  {
-			groups = {
-				{group = "janta_rare", chance = 10000000}
-		},
-			lootChance = 10000000
-		  },
-		  {
-			groups = {
-				{group = "janta_rare", chance = 10000000}
-		},
-			lootChance = 10000000
-		  },
-		  {
-			groups = {
-				{group = "janta_rare", chance = 10000000}
-		},
-			lootChance = 10000000
-		  },
-		  {
-			groups = {
-				{group = "janta_rare", chance = 10000000}
-		},
-			lootChance = 10000000
-		  },
-		  {
-			groups = {
-				{group = "janta_rare", chance = 10000000}
-			},
-			lootChance = 10000000
-		},
-		  {
-			groups = {
-				{group = "clothing_attachments", chance = 10000000}
-			},
-			lootChance = 10000000
-		},
-		{
-			groups = {
-				{group = "armor_attachments", chance = 10000000}
+				{group = "wearables_all", chance = 5000000},
+				{group = "loot_kit_parts", chance = 2500000},
+				{group = "tailor_components", chance = 2500000}
 			},
 			lootChance = 10000000
 		},
