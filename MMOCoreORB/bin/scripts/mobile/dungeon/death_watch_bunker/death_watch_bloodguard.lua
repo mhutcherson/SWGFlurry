@@ -11,7 +11,7 @@ death_watch_bloodguard = Creature:new {
 	baseXp = 11390,
 	baseHAM = 50000,
 	baseHAMmax = 50000,
-	armor = 2,
+	armor = 0,
 	resists = {55,55,70,60,30,30,100,40,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -32,13 +32,8 @@ death_watch_bloodguard = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "death_watch_bunker_lieutenants", chance = 6000000},
-				{group = "rifles", chance = 1000000},
-				{group = "pistols", chance = 1000000},
-				{group = "clothing_attachments", chance = 1000000},
-				{group = "armor_attachments", chance = 1000000},
-				{group = "death_watch_bunker_ingredient_binary", chance = 250000},
-				{group = "death_watch_bunker_ingredient_protective", chance = 250000}
+				{group = "death_watch_bunker_commoners", chance = 6000000},
+				{group = "death_watch_bunker_lieutenants", chance = 4000000}
 			},
 			lootChance = 10000000
 		}

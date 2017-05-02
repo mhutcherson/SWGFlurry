@@ -44,10 +44,10 @@
 ForceLightningSingle2Command = {
 	name = "forcelightningsingle2",
 
-	minDamage = 1500,
-	maxDamage = 6250,
+	minDamage = 2200,
+	maxDamage = 2650,
 	speed = 1.0,
-	forceCost = 150,
+	forceCost = 120,
 	visMod = 25,
 	accuracySkillMod = "forcelightning_accuracy",
 	accuracyBonus = 95,
@@ -58,9 +58,9 @@ ForceLightningSingle2Command = {
 		{},
 		{},
 		{ "jedi_state_defense" },
-		30,
+		65,
 		0,
-		10
+		15
 	  )
 	},
 
@@ -71,10 +71,10 @@ ForceLightningSingle2Command = {
 
 	poolsToDamage = RANDOM_ATTRIBUTE,
 
-	forceAttack = true,
-	damageType = FORCEPOWER_DAMAGE,
+	forceAttack = false,
+	damageType = LIGHTSABER_DAMAGE,
 
-	range = 32
+	range = 45
 }
 
 AddCommand(ForceLightningSingle2Command)

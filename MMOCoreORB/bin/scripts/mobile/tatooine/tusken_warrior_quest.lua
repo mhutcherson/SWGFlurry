@@ -1,5 +1,5 @@
 tusken_warrior_quest = Creature:new {
-	objectName = "@mob/creature_names:",
+	-- objectName = "@mob/creature_names:",
 	customName = "Tusken warrior",
 	socialGroup = "tusken_raider",
 	faction = "tusken_raider",
@@ -10,7 +10,7 @@ tusken_warrior_quest = Creature:new {
 	baseXp = 30824,
 	baseHAM = 75000,
 	baseHAMmax = 100000,
-	armor = 3,
+	armor = 0,
 	resists = {45,30,25,30,-1,30,-1,-1,-1},
 	meatType = "",
 	meatAmount = 0,

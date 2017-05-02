@@ -9,6 +9,9 @@
 #include "server/zone/objects/tangible/component/genetic/GeneticComponent.h"
 #include "server/zone/objects/tangible/component/dna/DnaComponent.h"
 #include "Genetics.h"
+#include "server/zone/objects/draftschematic/DraftSchematic.h"
+#include "server/zone/objects/manufactureschematic/ingredientslots/ComponentSlot.h"
+#include "server/zone/managers/crafting/CraftingManager.h"
 
 GeneticLabratory::GeneticLabratory() {
 }
@@ -41,6 +44,7 @@ String GeneticLabratory::pickSpecialAttack(String a, String b, String c, String 
 	} else {
 		effectiveSpecial = a;
 	}
+
 	int roll = System::random(750);
 	// roll now determined by template quality
 	// we roll 0-800 if that number is < quality * 100 i.e. VHQ 100 VLQ 700 if we get less than the odds we dont stick the special
@@ -224,7 +228,7 @@ void GeneticLabratory::setInitialCraftingValues(TangibleObject* prototype, Manuf
 	}
 	if (stunMax == 0) {
 		spStun = false;
-		stunMax = 80;
+		stunMax = 800;
 	}
 
 	// Step 2. At this point we know the max values for all stats and we have calculated any armor specials needed

@@ -1,5 +1,5 @@
 milliana = Creature:new {
-	objectName = "@mob/creature_names:",
+	-- objectName = "@mob/creature_names:",
 	customName = "Milliana (Armored Goddess)",
 	socialGroup = "self",
 	pvpFaction = "",
@@ -11,7 +11,7 @@ milliana = Creature:new {
 	baseXp = 1435409,
 	baseHAM = 25000000,
 	baseHAMmax = 25100000,
-	armor = 3,
+	armor = 0,
 	resists = {90,90,90,90,90,90,90,90,90},
 	meatType = "",
 	meatAmount = 0,

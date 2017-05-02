@@ -9,7 +9,7 @@ death_watch_s_battle_droid_alt = Creature:new {
 	baseXp = 19000,
 	baseHAM = 230000,
 	baseHAMmax = 230000,
-	armor = 2,
+	armor = 0,
 	resists = {85,95,100,60,100,25,40,85,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -33,7 +33,7 @@ death_watch_s_battle_droid_alt = Creature:new {
 		lootGroups = {
 			{
 				groups = {
-					{group = "death_watch_bunker_lieutenants", chance = 5500000},
+					{group = "death_watch_bunker_lieutenants", chance = 5000000},
 					{group = "rifles", chance = 1000000},
 					{group = "pistols", chance = 1000000},
 					{group = "clothing_attachments", chance = 1000000},

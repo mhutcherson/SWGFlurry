@@ -5,8 +5,6 @@
 #ifndef FORCERESISTSTATESCOMMAND_H_
 #define FORCERESISTSTATESCOMMAND_H_
 
-#include "server/zone/objects/scene/SceneObject.h"
-
 class ForceResistStatesCommand : public JediQueueCommand {
 public:
 
@@ -15,7 +13,7 @@ public:
 
 		buffCRC = BuffCRC::JEDI_RESIST_STATES;
 
-		skillMods.put("resistance_states", 25);
+		skillMods.put("resistance_states", 50);
 
 	}
 

@@ -1,5 +1,5 @@
 dune_kimogila_ancient = Creature:new {
-	objectName = "@mob/creature_names:",
+	-- objectName = "@mob/creature_names:",
 	customName = "dune kimogila ancient",
 	socialGroup = "kimogila",
 	faction = "",
@@ -10,7 +10,7 @@ dune_kimogila_ancient = Creature:new {
 	baseXp = 11671,
 	baseHAM = 53000,
 	baseHAMmax = 65000,
-	armor = 2,
+	armor = 0,
 	resists = {140,165,15,200,-1,15,200,-1,-1},
 	meatType = "meat_carnivore",
 	meatAmount = 1000,

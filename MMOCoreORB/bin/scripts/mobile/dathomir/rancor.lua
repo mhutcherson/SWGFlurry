@@ -9,7 +9,7 @@ rancor = Creature:new {
 	baseXp = 4916,
 	baseHAM = 10000,
 	baseHAMmax = 12000,
-	armor = 1,
+	armor = 0,
 	resists = {130,130,-1,160,160,160,-1,-1,-1},
 	meatType = "meat_carnivore",
 	meatAmount = 950,
@@ -36,23 +36,8 @@ rancor = Creature:new {
 				{group = "wearables_all", chance = 1500000}
 			},
 			lootChance = 10000000
-		},
-		 {
-			groups = {
-				{group = "looted_container", chance = 5000000},
-				{group = "loot_kit_parts", chance = 2500000},
-				{group = "clothing_attachments", chance = 2500000}
-			},
-			lootChance = 2500000
-		},
-		 {
-			groups = {
-				{group = "tailor_components", chance = 5000000},
-				{group = "junk", chance = 5000000}
-			},
-			lootChance = 2500000
-		},
-		},
+		}
+	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {

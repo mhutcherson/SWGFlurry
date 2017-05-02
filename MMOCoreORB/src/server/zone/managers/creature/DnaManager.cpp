@@ -6,17 +6,13 @@
  */
 
 #include "DnaManager.h"
-#include "conf/ConfigManager.h"
-#include "server/zone/managers/resource/ResourceManager.h"
-#include "server/zone/managers/combat/CombatManager.h"
-#include "server/zone/managers/creature/CreatureManager.h"
-#include "server/zone/managers/creature/DnaManager.h"
+#include "server/zone/ZoneServer.h"
 #include "server/zone/objects/creature/CreatureObject.h"
-#include "templates/params/creature/CreatureAttribute.h"
 #include "server/zone/objects/creature/ai/CreatureTemplate.h"
 #include "server/zone/objects/tangible/component/dna/DnaComponent.h"
 #include "server/zone/objects/tangible/deed/pet/PetDeed.h"
 #include "server/zone/managers/crafting/labratories/Genetics.h"
+#include "server/zone/managers/crafting/CraftingManager.h"
 
 AtomicInteger DnaManager::loadedDnaData;
 
@@ -290,7 +286,7 @@ int DnaManager::levelForScore(int type, float value) {
 	switch(type) {
 		case HIT_LEVEL:
 			for (int i=0;i<dnaHit.size();i++) {
-				float lvminus = 0, lvplus = 90;
+				float lvminus = 0, lvplus = 50;
 
 				if (i > 0)
 					lvminus = dnaHit.get(i - 1);
@@ -308,7 +304,7 @@ int DnaManager::levelForScore(int type, float value) {
 			break;
 		case DPS_LEVEL:
 			for (int i=0;i<dnaDPS.size();i++) {
-				float lvminus = 0, lvplus = 100000;
+				float lvminus = 0, lvplus = 10000;
 
 				if (i > 0)
 					lvminus = dnaDPS.get(i - 1);
@@ -344,7 +340,7 @@ int DnaManager::levelForScore(int type, float value) {
 			break;
 		case ARM_LEVEL:
 			for (int i=0;i<dnaArmor.size();i++) {
-				float lvminus = 0, lvplus = 200000;
+				float lvminus = 0, lvplus = 20000;
 
 				if (i > 0)
 					lvminus = dnaArmor.get(i - 1);
@@ -362,7 +358,7 @@ int DnaManager::levelForScore(int type, float value) {
 			break;
 		case REG_LEVEL:
 			for (int i=0;i<dnaRegen.size();i++) {
-				float lvminus = 0, lvplus = 500000;
+				float lvminus = 0, lvplus = 50000;
 
 				if (i > 0)
 					lvminus = dnaRegen.get(i - 1);

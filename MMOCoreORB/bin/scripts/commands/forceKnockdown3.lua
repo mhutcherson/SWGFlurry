@@ -46,9 +46,10 @@ ForceKnockdown3Command = {
 
     damageMultiplier = 0,
 	speed = 1.0,
-	forceCost = 150,
+	forceCost = 240,
 	visMod = 25,
 	accuracySkillMod = "forceknockdown_accuracy",
+	accuracyBonus = 95,
 	areaAction = true,
 	areaRange = 15,
 
@@ -58,7 +59,7 @@ ForceKnockdown3Command = {
 		{ "knockdownRecovery", "lastKnockdown" },
 		{ "force_defense" },
 		{},
-		65,
+		100,
 		0,
 		0
 	  )
@@ -72,7 +73,7 @@ ForceKnockdown3Command = {
 
 	forceAttack = true,
 
-	range = 32
+	range = 45
 }
 
 AddCommand(ForceKnockdown3Command)

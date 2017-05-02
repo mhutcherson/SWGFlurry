@@ -3,14 +3,14 @@ gorax = Creature:new {
 	socialGroup = "gorax",
 	faction = "",
 	level = 85,
-	chanceHit = 30,
-	damageMin = 1645,
-	damageMax = 3000,
-	baseXp = 28549,
-	baseHAM = 385000,
-	baseHAMmax = 471000,
-	armor = 3,
-	resists = {165,145,35,35,35,35,35,35,-1},
+	chanceHit = 8.5,
+	damageMin = 1245,
+	damageMax = 1900,
+	baseXp = 13367,
+	baseHAM = 110000,
+	baseHAMmax = 125000,
+	armor = 0,
+	resists = {185,185,175,175,175,175,175,175,155},
 	meatType = "",
 	meatAmount = 0,
 	hideType = "",
@@ -27,20 +27,26 @@ gorax = Creature:new {
 
 	templates = {"object/mobile/gorax.iff"},
 	lootGroups = {
-	 {
-	        groups = {
+		{
+			groups = {
 				{group = "gorax_common", chance = 6000000},
 				{group = "armor_attachments", chance = 2000000},
 				{group = "clothing_attachments", chance = 2000000}
 			},
 			lootChance = 10000000
-		}
-	},
+		},
+		{
+			groups = {
+				{group = "gorax_common", chance = 10000000},
+			},
+			lootChance = 8500000
+		},
+		},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {
-		{"creatureareaattack",""},
-		{"creatureareaknockdown",""}
+		{"creatureareaknockdown",""},
+		{"creatureareaattack",""}
 	}
 }
 

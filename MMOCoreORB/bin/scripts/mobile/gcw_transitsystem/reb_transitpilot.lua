@@ -1,6 +1,6 @@
 reb_transitpilot = Creature:new {
-	objectName = "@mob/creature_names:Transitpilot",
-        customName = "Alliance Factional Pilot",
+	--objectName = "@mob/creature_names:Transitpilot",
+      customName = "Alliance Factional Pilot",
 	socialGroup = "rebel",
 	pvpFaction = "rebel",
 	faction = "rebel",
@@ -24,7 +24,7 @@ reb_transitpilot = Creature:new {
 	ferocity = 0,
         pvpBitmask = NONE,
         creatureBitmask = NONE,
-        optionsBitmask = 264, --for conversation
+        optionsBitmask = INVULNERABLE + INTERESTING + 264,
         diet = HERBIVORE,
 
 	templates = {"object/mobile/dressed_rebel_pilot_human_male_01.iff"},

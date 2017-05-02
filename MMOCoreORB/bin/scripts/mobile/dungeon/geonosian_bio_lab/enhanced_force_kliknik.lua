@@ -1,7 +1,7 @@
 enhanced_force_kliknik = Creature:new {
 	objectName = "",
 	customName = "Force Kliknik",
-	socialGroup = "geonosian_creature",
+	socialGroup = "geonosian",
 	faction = "",
 	level = 85,
 	chanceHit = 0.95,
@@ -10,7 +10,7 @@ enhanced_force_kliknik = Creature:new {
 	baseXp = 8964,
 	baseHAM = 22000,
 	baseHAMmax = 27000,
-	armor = 2,
+	armor = 0,
 	resists = {35,35,0,95,-1,0,0,0,-1},
 	meatType = "meat_carnivore",
 	meatAmount = 45,
@@ -31,9 +31,7 @@ enhanced_force_kliknik = Creature:new {
 	lootGroups = {
 	 {
 	        groups = {
-				{group = "geo_kliknik", chance = 5000000},
-				{group = "geonosian_common", chance = 2500000},
-				{group = "geonosian_hard", chance = 2500000}
+				{group = "geo_kliknik", chance = 10000000}
 			},
 			lootChance = 10000000
 		}

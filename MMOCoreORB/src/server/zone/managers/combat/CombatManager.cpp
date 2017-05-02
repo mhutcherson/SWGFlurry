@@ -5,24 +5,22 @@
  *      Author: victor
  */
 
+
+
 #include "CombatManager.h"
 #include "CreatureAttackData.h"
 #include "server/zone/objects/scene/variables/DeltaVector.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/player/PlayerObject.h"
-#include "server/zone/objects/player/events/LogoutTask.h"
 #include "templates/params/creature/CreatureState.h"
 #include "server/zone/objects/creature/commands/CombatQueueCommand.h"
 #include "templates/params/creature/CreatureAttribute.h"
 #include "server/zone/packets/object/CombatSpam.h"
 #include "server/zone/packets/object/CombatAction.h"
-#include "server/zone/packets/chat/ChatSystemMessage.h"
 #include "server/zone/packets/tangible/UpdatePVPStatusMessage.h"
 #include "server/zone/Zone.h"
 #include "server/zone/managers/collision/CollisionManager.h"
-#include "server/zone/objects/creature/buffs/StateBuff.h"
 #include "server/zone/managers/visibility/VisibilityManager.h"
-#include "server/zone/managers/creature/CreatureManager.h"
 #include "server/zone/managers/creature/LairObserver.h"
 #include "server/zone/managers/reaction/ReactionManager.h"
 #include "server/zone/managers/player/PlayerManager.h"
@@ -298,6 +296,15 @@ int CombatManager::doTargetCombatAction(CreatureObject* attacker, WeaponObject* 
 		weapon->setMaxDamage(10);
 		info(attacker->getFirstName() + " was found using a bugged weapon!!", true);
 	}
+
+	if (weapon->getConditionDamage() < 0 ||
+			weapon->getConditionDamage() > 5000000) {
+		Locker locker(weapon);
+		weapon->setMinDamage(5);
+		weapon->setMaxDamage(10);
+		info(attacker->getFirstName() + " was found using a bugged weapon!!", true);
+	}
+
 	if (defender->isEntertaining())
 		defender->stopEntertaining();
 
@@ -1184,10 +1191,20 @@ int CombatManager::getArmorReduction(TangibleObject* attacker, WeaponObject* wea
 			sendMitigationCombatSpam(defender, armor, (int)dmgAbsorbed, ARMOR);
 		}
 
-		// inflict condition damage
-		Locker alocker(armor);
-
-		armor->inflictDamage(armor, 0, damage * 0.1, true, true);
+ 		// inflict condition damage
+ 		StringBuffer damageInfo;
+ 		damageInfo
+ 		<< "Damage Type is: "
+  		<< damageType
+  		<< " | Your Armor Resistance to LS is: "
+  		<< getArmorObjectReduction(armor, 16);
+  		info(damageInfo);
+  		Locker alocker(armor);
+  		if (getArmorObjectReduction(armor, 16) > 0 && damageType == 16) {
+  			armor->inflictDamage(armor, 0, damage * 0.3, true, true);
+  		} else {
+  			armor->inflictDamage(armor, 0, damage * 0.1, true, true);
+  		}
 	}
 
 	return damage;
@@ -1512,14 +1529,14 @@ int CombatManager::getHitChance(TangibleObject* attacker, CreatureObject* target
 		// saber block is special because it's just a % chance to block based on the skillmod
 		if (def == "saber_block") {
 			int block_mod = targetCreature->getSkillMod(def);
-            if (targetCreature->isIntimidated()) {
-                block_mod = (block_mod / 2);
+            if (targetCreature->isBlind() || targetCreature->isStunned() || targetCreature->isDizzied()) {
+                block_mod = (block_mod / 1.3); //drops saber block by 20% when a target is blinded, dizzyed, or stuned.
             }
             if (!attacker->isTurret() && (weapon->getAttackType() == SharedWeaponObjectTemplate::RANGEDATTACK) && ((System::random(100)) < block_mod))
                 return RICOCHET;
             else return HIT;
 		}
-
+		
 		targetDefense = getDefenderSecondaryDefenseModifier(targetCreature);
 
 		//info("Secondary defenses are " + String::valueOf(targetDefense), true);

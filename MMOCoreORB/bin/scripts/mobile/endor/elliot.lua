@@ -1,5 +1,5 @@
 elliot = Creature:new {
-	objectName = "@mob/creature_names:",
+	-- objectName = "@mob/creature_names:",
 	customName = "Elliot (Mad Scientist)",
 	socialGroup = "self",
 	pvpFaction = "",
@@ -11,7 +11,7 @@ elliot = Creature:new {
 	baseXp = 35409,
 	baseHAM = 775000,
 	baseHAMmax = 795000,
-	armor = 3,
+	armor = 0,
 	resists = {50,50,50,50,50,50,50,50,25},
 	meatType = "",
 	meatAmount = 0,

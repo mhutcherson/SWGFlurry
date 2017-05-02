@@ -11,7 +11,7 @@ death_watch_wraith = Creature:new {
 	baseXp = 16794,
 	baseHAM = 120000,
 	baseHAMmax = 120000,
-	armor = 2,
+	armor = 0,
 	resists = {75,75,90,80,45,45,100,70,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -32,13 +32,10 @@ death_watch_wraith = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "death_watch_bunker_lieutenants", chance = 5500000},
-				{group = "rifles", chance = 1000000},
-				{group = "pistols", chance = 1000000},
-				{group = "clothing_attachments", chance = 1000000},
-				{group = "armor_attachments", chance = 1000000},
-				{group = "death_watch_bunker_ingredient_binary", chance = 500000},
-				{group = "death_watch_bunker_ingredient_protective", chance = 500000}
+				{group = "death_watch_bunker_commoners",   chance = 6300000},
+				{group = "death_watch_bunker_lieutenants", chance = 3500000},
+				{group = "death_watch_bunker_ingredient_protective",  chance = 100000},
+				{group = "death_watch_bunker_ingredient_binary",  chance = 100000}
 			},
 			lootChance = 10000000
 		}

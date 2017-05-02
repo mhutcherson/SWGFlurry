@@ -1,5 +1,5 @@
 marvolo = Creature:new {
-	objectName = "@mob/creature_names:",
+	-- objectName = "@mob/creature_names:",
 	customName = "marvolo (Dark Jedi Consular)",
 	socialGroup = "dark_jedi",
 	pvpFaction = "",
@@ -11,7 +11,7 @@ marvolo = Creature:new {
 	baseXp = 35409,
 	baseHAM = 2950000,
 	baseHAMmax = 3250000,
-	armor = 3,
+	armor = 0,
 	resists = {95,95,95,95,95,95,95,95,95},
 	meatType = "",
 	meatAmount = 0,

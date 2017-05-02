@@ -15,11 +15,9 @@
 #include "server/zone/managers/group/GroupManager.h"
 #include "server/zone/objects/creature/buffs/SquadLeaderBuff.h"
 #include "server/zone/objects/creature/CreatureObject.h"
-#include "server/zone/ZoneProcessServer.h"
 #include "server/zone/ZoneServer.h"
 #include "server/zone/objects/group/RemovePetsFromGroupTask.h"
 #include "server/zone/objects/group/tasks/UpdateNearestMissionForGroupTask.h"
-#include "server/zone/managers/mission/MissionManager.h"
 #include "server/zone/objects/waypoint/WaypointObject.h"
 
 void GroupObjectImplementation::sendBaselinesTo(SceneObject* player) {
@@ -410,8 +408,12 @@ void GroupObjectImplementation::calcGroupLevel() {
 		Reference<CreatureObject*> member = getGroupMember(i);
 
 		if (member->isPet()) {
+			// If there is a level 77+ pet in group, we will assume they want max level missions
+			if (member->getLevel() >= 77)
+				groupLevel = 200;
+			else
 			groupLevel += member->getLevel() / 5;
-
+			
 		} else if (member->isPlayerCreature()) {
 			int memberLevel = member->getLevel();
 

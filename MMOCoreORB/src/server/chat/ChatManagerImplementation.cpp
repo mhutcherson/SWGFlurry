@@ -26,7 +26,6 @@
 #include "server/zone/packets/chat/ChatOnCreateRoom.h"
 #include "server/zone/packets/chat/ChatOnDestroyRoom.h"
 #include "server/zone/packets/chat/ChatOnEnteredRoom.h"
-#include "server/zone/packets/chat/ChatPersistentMessageToClient.h"
 #include "server/zone/packets/chat/ChatQueryRoomResults.h"
 #include "server/zone/packets/chat/ChatOnReceiveRoomInvitation.h"
 #include "server/zone/packets/chat/ChatOnInviteToRoom.h"
@@ -40,7 +39,6 @@
 #include "server/zone/objects/guild/GuildObject.h"
 #include "server/zone/objects/player/PlayerObject.h"
 #include "server/zone/objects/creature/ai/AiAgent.h"
-#include "server/zone/objects/intangible/PetControlDevice.h"
 
 #include "server/chat/StringIdChatParameter.h"
 #include "server/chat/PersistentMessage.h"
@@ -48,8 +46,6 @@
 
 #include "server/chat/room/ChatRoom.h"
 #include "server/chat/room/ChatRoomMap.h"
-#include "server/chat/SendMailTask.h"
-#include "server/zone/packets/chat/ChatSystemMessage.h"
 #include "templates/string/StringFile.h"
 
 ChatManagerImplementation::ChatManagerImplementation(ZoneServer* serv, int initsize) : ManagedServiceImplementation() {
@@ -758,6 +754,16 @@ void ChatManagerImplementation::handleChatRoomMessage(CreatureObject* sender, co
 		channel->broadcastMessageCheckIgnore(msg, name);
 	} else if (planetRoom != NULL && planetRoom->getRoomID() == roomID) {
 		channel->broadcastMessageCheckIgnore(msg, name);
+	} else if (generalRoom != NULL && generalRoom->getRoomID() == roomID) {
+ 		channel->broadcastMessageCheckIgnore(msg, name);
+	} else if (galaxyRoom != NULL && galaxyRoom->getRoomID() == roomID) {
+ 		channel->broadcastMessageCheckIgnore(msg, name);
+	} else if (systemRoom != NULL && systemRoom->getRoomID() == roomID) {
+ 		channel->broadcastMessageCheckIgnore(msg, name);
+	} else if (groupRoom != NULL && groupRoom->getRoomID() == roomID) {
+ 		channel->broadcastMessageCheckIgnore(msg, name);
+	} else if (guildRoom != NULL && guildRoom->getRoomID() == roomID) {
+ 		channel->broadcastMessageCheckIgnore(msg, name);
 	} else {
 		channel->broadcastMessage(msg);
 	}

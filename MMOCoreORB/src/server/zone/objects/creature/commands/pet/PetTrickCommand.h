@@ -78,11 +78,11 @@ public:
 			return INSUFFICIENTHAM;
 		}
 
-		// Heal 20% or 40% of base in wounds and damage
+		// Heal 25% or 50% of base in wounds and damage
 		int mindHeal = pet->getBaseHAM(CreatureAttribute::MIND) * 0.25 * trickNumber;
 		int focusHeal = pet->getBaseHAM(CreatureAttribute::FOCUS) * 0.25 * trickNumber;
 		int willHeal = pet->getBaseHAM(CreatureAttribute::WILLPOWER) * 0.25 * trickNumber;
-		int shockHeal = 500 * trickNumber;
+		int shockHeal = 250 * trickNumber;
 
 		// Heal wounds
 		pet->healWound(player, CreatureAttribute::MIND, mindHeal, true, false);

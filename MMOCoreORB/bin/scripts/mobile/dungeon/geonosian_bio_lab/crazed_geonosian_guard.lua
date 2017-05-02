@@ -2,7 +2,7 @@ crazed_geonosian_guard = Creature:new {
 	objectName = "@mob/creature_names:geonosian_crazed_guard",
 	randomNameType = NAME_GENERIC,
 	randomNameTag = true,
-	socialGroup = "self",
+	socialGroup = "geonosian",
 	faction = "",
 	level = 65,
 	chanceHit = 0.64,
@@ -11,7 +11,7 @@ crazed_geonosian_guard = Creature:new {
 	baseXp = 6288,
 	baseHAM = 11000,
 	baseHAMmax = 14000,
-	armor = 1,
+	armor = 0,
 	resists = {125,135,-1,165,25,125,-1,25,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -35,8 +35,7 @@ crazed_geonosian_guard = Creature:new {
 		{
 			groups = {
 				{group = "geonosian_common", chance = 5000000},
-				{group = "geonosian_hard", chance = 4000000},
-				{group = "geonosian_relic", chance = 1000000}
+				{group = "geonosian_relic", chance = 5000000}
 			},
 			lootChance = 10000000
 		}

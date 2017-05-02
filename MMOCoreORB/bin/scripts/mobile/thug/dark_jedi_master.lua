@@ -11,7 +11,7 @@ dark_jedi_master = Creature:new {
 	baseXp = 27849,
 	baseHAM = 321000,
 	baseHAMmax = 392000,
-	armor = 3,
+	armor = 0,
 	resists = {90,90,90,90,90,90,90,90,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -33,8 +33,8 @@ dark_jedi_master = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "holocron_dark", chance = 600000},
-				{group = "holocron_light", chance = 600000},
+				{group = "junk", chance = 600000},
+				{group = "junk", chance = 600000},
 				{group = "crystals_premium", chance = 600000},
 				{group = "rifles", chance = 1300000},
 				{group = "pistols", chance = 1300000},

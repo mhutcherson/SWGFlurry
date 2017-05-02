@@ -9,7 +9,7 @@
 #include "server/zone/objects/player/sui/SuiWindowType.h"
 #include "server/zone/objects/player/sui/listbox/SuiListBox.h"
 #include "server/zone/objects/tangible/tool/smuggler/SlicingTool.h"
-
+#include "server/zone/objects/player/PlayerObject.h"
 #include "server/zone/managers/player/PlayerManager.h"
 #include "server/zone/managers/loot/LootManager.h"
 #include "server/zone/managers/gcw/GCWManager.h"
@@ -686,21 +686,34 @@ void SlicingSessionImplementation::handleArmorSlice() {
 	if (tangibleObject == NULL || player == NULL)
 		return;
 
-	uint8 sliceType = System::random(1);
+	uint8 sliceType = 0;
 	int sliceSkill = getSlicingSkill(player);
 	uint8 min = 0;
 	uint8 max = 0;
 
-	switch (sliceSkill) {
+	if(!selectSlice){
+		sliceType = System::random(1);    //If not selected type, random slice
+	}else{
+		switch (sliceOption) {
+			case 1:
+				sliceType=0;      // Effectiveness slice
+				break;
+			case 2:
+				sliceType=1;      // Encumbrance slice
+				break;
+		}
+	}
+
+	switch (sliceSkill) {       // 25-45% max encumbrance slice, 20-40% max effectiveness slice
 	case 5:
-		min += (sliceType == 0) ? 6 : 5;
+		min += (sliceType == 0) ? 5 : 10;
 		max += 5;
 	case 4:
-		min += (sliceType == 0) ? 0 : 10;
+		min += (sliceType == 0) ? 10 : 10;
 		max += 10;
 	case 3:
 		min += 5;
-		max += (sliceType == 0) ? 20 : 30;
+		max += (sliceType == 0) ? 25 : 30;
 		break;
 	default:
 		return;
@@ -803,8 +816,7 @@ void SlicingSessionImplementation::handleContainerSlice() {
 			return;
 		}
 
-		if (System::random(10) != 4)
-			lootManager->createLoot(container, "looted_container");
+		lootManager->createLoot(container, "looted_container");
 
 		inventory->transferObject(container, -1);
 		container->sendTo(player, true);

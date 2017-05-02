@@ -8,7 +8,6 @@
 #include "ComponentManager.h"
 
 #include "server/zone/objects/player/components/PlayerContainerComponent.h"
-#include "server/zone/objects/scene/components/ContainerComponent.h"
 #include "server/zone/objects/tangible/components/LootContainerComponent.h"
 #include "server/zone/objects/scene/components/ZoneComponent.h"
 #include "server/zone/objects/scene/components/ObjectMenuComponent.h"
@@ -51,6 +50,8 @@
 #include "server/zone/objects/tangible/components/HolocronMenuComponent.h"
 #include "server/zone/objects/tangible/components/WaypointDatapadMenuComponent.h"
 #include "server/zone/objects/tangible/components/ForceCrystalMenuComponent.h"
+#include "server/zone/objects/tangible/components/ForceFrsLMenuComponent.h"
+#include "server/zone/objects/tangible/components/ForceFrsDMenuComponent.h"
 #include "server/zone/objects/tangible/components/ForceShrineMenuComponent1.h"
 #include "server/zone/objects/tangible/components/RobeObjectMenuComponent.h"
 #include "server/zone/objects/tangible/components/generic/ArtCrateMenuComponent.h"
@@ -92,7 +93,6 @@
 #include "server/zone/objects/tangible/components/ElevatorDownMenuComponent.h"
 #include "server/zone/objects/region/components/CityManagementMenuComponent.h"
 #include "server/zone/objects/region/components/CityVotingMenuComponent.h"
-#include "server/zone/objects/scene/components/DataObjectComponent.h"
 #include "server/zone/objects/tangible/components/generic/ShellfishHarvesterMenuComponent.h"
 #include "server/zone/objects/tangible/components/generic/DataStorageUnitDataComponent.h"
 #include "server/zone/objects/tangible/components/generic/DiceDataComponent.h"
@@ -268,6 +268,8 @@ ComponentManager::ComponentManager() {
 	components.put("LightsaberObjectMenuComponent", new LightsaberObjectMenuComponent());
 	components.put("RobeObjectMenuComponent", new RobeObjectMenuComponent());
 	components.put("ForceCrystalMenuComponent", new ForceCrystalMenuComponent());
+	components.put("ForceFrsLMenuComponent", new ForceFrsLMenuComponent());
+	components.put("ForceFrsDMenuComponent", new ForceFrsDMenuComponent());
 	components.put("ForceShrineMenuComponent1", new ForceShrineMenuComponent1());
 	components.put("SaberInventoryContainerComponent", new SaberInventoryContainerComponent());
 

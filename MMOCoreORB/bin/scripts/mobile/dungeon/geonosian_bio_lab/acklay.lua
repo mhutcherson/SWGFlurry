@@ -1,17 +1,17 @@
 acklay = Creature:new {
 	objectName = "@mob/creature_names:geonosian_acklay_bunker_boss",
 	customName = "Acklay",
-	socialGroup = "geonosian_creature",
+	socialGroup = "geonosian",
 	faction = "",
-	level = 85,
+	level = 157,
 	chanceHit = 92.5,
 	damageMin = 935,
-	damageMax = 2180,
-	baseXp = 148840,
+	damageMax = 1580,
+	baseXp = 14884,
 	baseHAM = 96000,
-	baseHAMmax = 218000,
-	armor = 3,
-	resists = {130,145,155,155,145,30,30,30,-1},
+	baseHAMmax = 118000,
+	armor = 2,
+	resists = {130,145,155,155,145,30,30,30,125},
 	meatType = "",
 	meatAmount = 0,
 	hideType = "",
@@ -30,12 +30,18 @@ acklay = Creature:new {
 	lootGroups = {
 		{
 			groups = {
-				{group = "acklay", chance = 10000000}
+				{group = "acklay", chance = 10000000},
 			},
 			lootChance = 10000000
-		}
-	},
-	weapons = {"creature_spit_large_yellow"},
+		},
+		{
+			groups = {
+				{group = "acklays", chance = 10000000},
+			},
+			lootChance = 2500000
+		},
+		},
+	weapons = {},
 	conversationTemplate = "",
 	attacks = {
 		{"posturedownattack","stateAccuracyBonus=50"},

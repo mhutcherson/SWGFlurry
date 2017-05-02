@@ -2,15 +2,15 @@ canyon_krayt_dragon = Creature:new {
 	objectName = "@mob/creature_names:canyon_krayt_dragon",
 	socialGroup = "krayt",
 	faction = "",
-	level = 300,
-	chanceHit = 27.25,
-	damageMin = 1520,
-	damageMax = 2750,
-	baseXp = 26356,
-	baseHAM = 321000,
-	baseHAMmax = 392000,
-	armor = 3,
-	resists = {160,160,160,160,120,160,160,160,-1},
+	level = 85,
+	chanceHit = 8.5,
+	damageMin = 1245,
+	damageMax = 1900,
+	baseXp = 13367,
+	baseHAM = 110000,
+	baseHAMmax = 125000,
+	armor = 0,
+	resists = {180,180,180,180,180,180,180,180,150},
 	meatType = "meat_carnivore",
 	meatAmount = 100,
 	hideType = "hide_bristley",
@@ -26,23 +26,27 @@ canyon_krayt_dragon = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/canyon_krayt_dragon.iff"},
-	scale = 0.9;
+	scale = 0.9,
 	lootGroups = {
 		{
 	        groups = {
-				{group = "krayt_dragon_common", chance = 3500000},
-				{group = "krayt_tissue_uncommon", chance = 2500000},
-				{group = "armor_all", chance = 2000000},
-				{group = "weapons_all", chance = 2000000},
+				{group = "krayt_dragon_common", chance = 2000000},
+				{group = "krayt_tissue_uncommon", chance = 1000000},
+				{group = "armor_all", chance = 1000000},
+				{group = "weapons_all", chance = 1000000},
+				{group = "armor_attachments", chance = 1000000},
+				{group = "clothing_attachments", chance = 1000000},
+				{group = "junk",chance = 3000000}
+				
 			},
-			lootChance = 10000000
+			lootChance = 8000000
 		}
 	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {
-		{"creatureareaattack","stateAccuracyBonus=50"},
-		{"stunattack","stateAccuracyBonus=50"}
+		{"creatureareaattack",""},
+		{"stunattack",""}
 	}
 }
 

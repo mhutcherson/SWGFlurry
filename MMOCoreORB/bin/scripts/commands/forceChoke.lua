@@ -44,12 +44,12 @@
 ForceChokeCommand = {
   name = "forcechoke",
 
-  minDamage = 875,
-  maxDamage = 1175,
-  speed = 3.0,
-  forceCost = 500,
+  minDamage = 1000,
+  maxDamage = 1200,
+  speed = 1.0,
+  forceCost = 190,
   visMod = 25,
-  forceAttack = true,
+  forceAttack = false,
   accuracyBonus = 95,
 
   animation = "force_choke_1_particle_level_1",
@@ -57,10 +57,10 @@ ForceChokeCommand = {
 
   combatSpam = "forcechoke",
 
-  poolsToDamage = HEALTH_ATTRIBUTE,
-  damageType = FORCEPOWER_DAMAGE,
+  poolsToDamage = HEALTH_ATTRIBUTE + ACTION_ATTRIBUTE + MIND_ATTRIBUTE,
+  damageType = LIGHTSABER_DAMAGE,
 
-  range = 32,
+  range = 45,
 
   dotEffects = {
     DotEffect(
@@ -68,12 +68,12 @@ ForceChokeCommand = {
     { "", "" },
     HEALTH,
     true,
-    -1,
+    0,
     100,
     350,
     35,
-    33.0,
-    0.33
+    100,
+    1
     ),
 
     DotEffect(
@@ -81,12 +81,12 @@ ForceChokeCommand = {
     { "", "" },
     ACTION,
     true,
-    -1,
+    0,
     100,
     350,
     35,
-    33.0,
-    0.33
+    100,
+    1
     ),
 
     DotEffect(
@@ -94,12 +94,12 @@ ForceChokeCommand = {
     { "", "" },
     MIND,
     true,
-    -1,
+    0,
     100,
     350,
     35,
-    33.0,
-    0.33
+    100,
+    1
     )
   },
 }

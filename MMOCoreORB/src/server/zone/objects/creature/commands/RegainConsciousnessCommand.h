@@ -5,10 +5,10 @@
 #ifndef REGAINCONSCIOUSNESSCOMMAND_H_
 #define REGAINCONSCIOUSNESSCOMMAND_H_
 
-#include "server/zone/objects/scene/SceneObject.h"
 #include "server/zone/ZoneServer.h"
 #include "server/zone/managers/player/PlayerManager.h"
 #include "server/zone/objects/creature/buffs/PrivateBuff.h"
+
 class RegainConsciousnessCommand : public JediQueueCommand {
 public:
 
@@ -46,6 +46,8 @@ public:
 			// Add buffs to creature
 			creature->addBuff(groggyDebuff);
 			creature->addBuff(regenDebuff);
+			creature->clearBuffs(true);
+			creature->setFactionStatus(2);
 
 			ManagedReference<PlayerObject*> playerObject = creature->getPlayerObject();
 

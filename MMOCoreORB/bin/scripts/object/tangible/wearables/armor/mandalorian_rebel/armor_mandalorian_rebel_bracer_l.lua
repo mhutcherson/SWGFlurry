@@ -44,6 +44,8 @@
 object_tangible_wearables_armor_mandalorian_rebel_armor_mandalorian_rebel_bracer_l = object_tangible_wearables_armor_mandalorian_rebel_shared_armor_mandalorian_rebel_bracer_l:new {
 	templateType = ARMOROBJECT,
 
+	objectMenuComponent = "ArmorObjectMenuComponent",
+
 
 
 	playerRaces = { "object/creature/player/bothan_male.iff",
@@ -101,25 +103,20 @@ object_tangible_wearables_armor_mandalorian_rebel_armor_mandalorian_rebel_bracer
 				"object/creature/player/zabrak_female.iff" },
 	
 	-- Damage types in WeaponObject
-	vulnerability = LIGHTSABER,
+	vulnerability = ACID + STUN,
+	specialResists = LIGHTSABER,
 
-	-- These are default Blue Frog stats, These are also used as temporary DWB crafting stats. Needs to be adjusted to random color, and Blast should be a Special Resist. Encumberance on boots and all arm/hand armor are estimated. Helm/Chest/Leggings are correct. 
-	healthEncumbrance = 50,
-	actionEncumbrance = 48,
-	mindEncumbrance = 53,
+	-- These are default Blue Frog stats
+	healthEncumbrance = 1,
+	actionEncumbrance = 1,
+	mindEncumbrance = 1,
 
-	rating = HEAVY,
-	maxCondition = 150000,
+	-- LIGHT, MEDIUM, HEAVY
+	rating = LIGHT,
 
-	kinetic = 65,
-	energy = 65,
-	electricity = 65,
-	stun = 65,
-	blast = 65,
-	heat = 65,
-	cold = 65,
-	acid = 65,
-	lightSaber = 65
+	stun = 0,
+	acid = 0,
+	lightSaber = 12,
 }
 
 ObjectTemplates:addTemplate(object_tangible_wearables_armor_mandalorian_rebel_armor_mandalorian_rebel_bracer_l, "object/tangible/wearables/armor/mandalorian_rebel/armor_mandalorian_rebel_bracer_l.iff")

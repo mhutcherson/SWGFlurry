@@ -6,7 +6,6 @@
  */
 
 #include "server/zone/objects/player/sessions/crafting/CraftingSession.h"
-#include "server/zone/Zone.h"
 #include "server/zone/managers/player/PlayerManager.h"
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/player/PlayerObject.h"
@@ -15,10 +14,10 @@
 #include "server/zone/managers/crafting/CraftingManager.h"
 #include "server/zone/managers/crafting/ComponentMap.h"
 #include "server/zone/objects/manufactureschematic/ingredientslots/ComponentSlot.h"
+#include "server/zone/objects/tangible/tool/CraftingStation.h"
 
 #include "server/zone/packets/tangible/TangibleObjectDeltaMessage3.h"
 #include "server/zone/packets/player/PlayerObjectDeltaMessage9.h"
-
 #include "server/zone/packets/manufactureschematic/ManufactureSchematicObjectDeltaMessage3.h"
 #include "server/zone/packets/manufactureschematic/ManufactureSchematicObjectDeltaMessage7.h"
 
@@ -1067,15 +1066,7 @@ void CraftingSessionImplementation::customization(const String& name, byte templ
 	String customizationname = "";
 
 	//Database::escapeString(name);
-
-	//Remove color codes
 	String newName = name;
-	while (newName.contains("\\#")) {
-		int index = newName.indexOf("\\#");
-		String sub = "\\" + newName.subString(index, index + 2);
-		newName = newName.replaceFirst(sub,"");
-	}
-
 	UnicodeString customName(newName);
 	prototype->setCustomObjectName(customName, false);
 

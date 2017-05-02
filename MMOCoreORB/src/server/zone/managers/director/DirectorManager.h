@@ -8,7 +8,6 @@
 #ifndef DIRECTORMANAGER_H_
 #define DIRECTORMANAGER_H_
 
-#include "engine/engine.h"
 #include "DirectorSharedMemory.h"
 #include "server/zone/managers/director/QuestStatus.h"
 #include "server/zone/managers/director/QuestVectorMap.h"
@@ -188,6 +187,7 @@ namespace server {
 		static int getQuestVectorMap(lua_State* L);
 		static int removeQuestVectorMap(lua_State* L);
 		static int createQuestVectorMap(lua_State* L);
+		static int adminPlaceStructure(lua_State* L);
 		static int createNavMesh(lua_State* L);
 		static int creatureTemplateExists(lua_State* L);
 

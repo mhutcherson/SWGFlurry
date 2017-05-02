@@ -5,7 +5,6 @@
 #ifndef EMBOLDENPETSCOMMAND_H_
 #define EMBOLDENPETSCOMMAND_H_
 
-#include "server/zone/objects/scene/SceneObject.h"
 #include "server/zone/objects/intangible/PetControlDevice.h"
 #include "server/zone/managers/creature/PetManager.h"
 #include "server/zone/objects/creature/ai/AiAgent.h"
@@ -66,8 +65,8 @@ public:
 				if( pet->isIncapacitated() || pet->isDead() )
 					continue;
 
-				// Check range
-				if( !checkDistance(player, pet, 75.0f) )
+				// Check range, let's make sure the CH is somewhat up close and personal
+				if( !checkDistance(player, pet, 50.0f) )
 					continue;
 
 				// Check if pet already has buff
@@ -80,14 +79,14 @@ public:
 				if( pet->getCooldownTimerMap() == NULL || !pet->getCooldownTimerMap()->isPast("emboldenPetsCooldown") )
 					continue;
 
-				// Build 15% Health, Action, Mind buff
+				// Build 25% Health, Action, Mind buff
 				ManagedReference<Buff*> buff = new Buff(pet, buffCRC, durationSec, BuffType::OTHER);
 
 				Locker locker(buff);
 
-				int healthBuff = pet->getBaseHAM(CreatureAttribute::HEALTH) * 0.75;
-				int actionBuff = pet->getBaseHAM(CreatureAttribute::ACTION) * 0.75;
-				int mindBuff = pet->getBaseHAM(CreatureAttribute::MIND) * 0.75;
+				int healthBuff = pet->getBaseHAM(CreatureAttribute::HEALTH) * 0.25;
+				int actionBuff = pet->getBaseHAM(CreatureAttribute::ACTION) * 0.25;
+				int mindBuff = pet->getBaseHAM(CreatureAttribute::MIND) * 0.25;
 				buff->setAttributeModifier(CreatureAttribute::HEALTH, healthBuff);
 				buff->setAttributeModifier(CreatureAttribute::ACTION, actionBuff);
 				buff->setAttributeModifier(CreatureAttribute::MIND, mindBuff);

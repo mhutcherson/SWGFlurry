@@ -1,5 +1,5 @@
 palpatine_elder = Creature:new {
-	objectName = "@mob/creature_names:",
+	-- objectName = "@mob/creature_names:",
 	customName = "Palpatine (Boss)",
 	socialGroup = "dark_jedi",
 	pvpFaction = "",
@@ -11,7 +11,7 @@ palpatine_elder = Creature:new {
 	baseXp = 278490,
 	baseHAM = 421000,
 	baseHAMmax = 4092000,
-	armor = 3,
+	armor = 0,
 	resists = {95,95,95,95,95,95,95,95,95},
 	meatType = "",
 	meatAmount = 0,

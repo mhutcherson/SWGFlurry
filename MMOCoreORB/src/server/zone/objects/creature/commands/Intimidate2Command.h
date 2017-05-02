@@ -5,10 +5,7 @@
 #ifndef INTIMIDATE2COMMAND_H_
 #define INTIMIDATE2COMMAND_H_
 
-#include "server/zone/objects/scene/SceneObject.h"
-#include "server/zone/managers/combat/CombatManager.h"
 #include "server/zone/packets/object/CombatSpam.h"
-#include "server/chat/ChatMessage.h"
 #include "CombatQueueCommand.h"
 
 class Intimidate2Command : public CombatQueueCommand {
@@ -48,6 +45,10 @@ public:
 			}
 		}
 		return res;
+	}
+	
+	float getCommandDuration(CreatureObject* object, const UnicodeString& arguments) const {
+		return defaultTime * 0.0;
 	}
 
 };

@@ -11,7 +11,7 @@ nightsister_initiate = Creature:new {
 	baseXp = 5830,
 	baseHAM = 11000,
 	baseHAMmax = 14000,
-	armor = 1,
+	armor = 0,
 	resists = {10,10,10,100,100,100,100,100,-1},
 	meatType = "",
 	meatAmount = 0,
@@ -41,6 +41,18 @@ nightsister_initiate = Creature:new {
 				{group = "pistols", chance = 1000000},
 				{group = "carbines", chance = 1000000},
 				{group = "axkva_min", chance = 1000000}
+			},
+			lootChance = 10000000
+		},
+		{
+			groups = {
+				{group = "nightsister_rare", chance = 10000000},
+			},
+			lootChance = 1500000
+		},
+		{
+	           groups = {
+				{group = "junk", chance = 10000000},
 			},
 			lootChance = 10000000
 		}

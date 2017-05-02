@@ -84,7 +84,7 @@ public:
 				// Object Name
 				StringBuffer customName;
 				if (ghost->getAdminLevel() >= 15) {
-					customName << object->getDisplayedName(); //<< " \\#00CC00(" << player->getFirstName() << ")\\#FFFFFF";
+					customName << object->getDisplayedName() << " \\#00CC00(" << player->getFirstName() << ")\\#FFFFFF";
 				} else {
 					//customName << object->getDisplayedName() <<  " (System Generated)";
 					customName << object->getDisplayedName() << " \\#00CC00(" << player->getFirstName() << ")\\#FFFFFF";
@@ -228,7 +228,7 @@ public:
 
 				adminPlaceStructure->callFunction();
 			 }
-			 else if (commandType.beginsWith("modify")) // Seefo's command - please don't modify (pun intended)
+			 else if (commandType.beginsWith("modify"))
 			 {
 				String objID;
 				args.getStringToken(objID);
@@ -259,6 +259,7 @@ public:
 				{
 					int amount = args.getIntToken();
 					object->setUseCount(amount, true);
+					creature->sendSystemMessage("Set amount to" + amount);
 				}
 				else if(subCommand == "clone")
 				{
@@ -277,10 +278,7 @@ public:
 				}
 				else
 				{
-					creature->sendSystemMessage("SYNTAX: /object modify <oid> attributes <attribute name> <amount>");
-					creature->sendSystemMessage("SYNTAX: /object modify <oid> uses <amount>");
-					creature->sendSystemMessage("SYNTAX: /object modify <oid> clone");
-					creature->sendSystemMessage("SYNTAX: /object modify <oid> template <newTemplate>");
+					creature->sendSystemMessage("Unknown Command");
 					return INVALIDPARAMETERS;
 				}
 			}
@@ -291,6 +289,10 @@ public:
 			creature->sendSystemMessage("SYNTAX: /object createarealoot <loottemplate> [<range>] [<level>]");
 			creature->sendSystemMessage("SYNTAX: /object checklooted");
 			creature->sendSystemMessage("SYNTAX: /object addstructure");
+			creature->sendSystemMessage("SYNTAX: /object modify <oid> attributes <attribute name> <amount>");
+			creature->sendSystemMessage("SYNTAX: /object modify <oid> uses <amount>");
+			creature->sendSystemMessage("SYNTAX: /object modify <oid> clone");
+			creature->sendSystemMessage("SYNTAX: /object modify <oid> template <newTemplate>");
 
 			return INVALIDPARAMETERS;
 		}
@@ -302,3 +304,4 @@ public:
 };
 
 #endif //OBJECTCOMMAND_H_
+
